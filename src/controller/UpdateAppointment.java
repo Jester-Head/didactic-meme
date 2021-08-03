@@ -13,7 +13,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.User;
-import utilities.QueryClass;
+import utilities.AppointmentQueries;
+import utilities.ContactQueries;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -132,7 +134,7 @@ public class UpdateAppointment implements Initializable {
 						appointmentType
 						, startDateTime, endDateTime, lastUpdate, updatedBy, contactId,
 						customerIdInt, userIdInt);
-				boolean success = QueryClass.updateAppointment(validAppointment);
+				boolean success = AppointmentQueries.updateAppointment(validAppointment);
 
 				if (success) {
 					Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -296,7 +298,7 @@ public class UpdateAppointment implements Initializable {
 	 */
 	public Boolean checkOverlaps(Appointment appointment) throws SQLException {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
-		ObservableList<Appointment> allAppointments = QueryClass.getAllAppointments();
+		ObservableList<Appointment> allAppointments = AppointmentQueries.getAllAppointments();
 		LocalDateTime newAppointmentStart = appointment.getStartDateTime().toLocalDateTime();
 		LocalDateTime newAppointmentEnd = appointment.getEndDateTime().toLocalDateTime();
 		alert.setHeaderText("Timeslot unavailable");
@@ -355,7 +357,7 @@ public class UpdateAppointment implements Initializable {
 		userIdTxt.setText(String.valueOf(selectedItem.getUserId()));
 		descriptionTxt.setText(selectedItem.getDescription());
 		locationTxt.setText(selectedItem.getLocation());
-		Appointment appointment = QueryClass.getContactInfo(selectedItem.getContactId());
+		Appointment appointment = ContactQueries.getContactInfo(selectedItem.getContactId());
 		contactCb.setValue(appointment);
 
 		//Disables past dates for start and end times
@@ -436,7 +438,7 @@ public class UpdateAppointment implements Initializable {
 		appointmentTypeCb.setItems(types);
 
 		//Contacts
-		ObservableList<Appointment> contacts = FXCollections.observableArrayList(QueryClass.queryContacts());
+		ObservableList<Appointment> contacts = FXCollections.observableArrayList(ContactQueries.queryContacts());
 		contactCb.setItems(contacts);
 	}
 

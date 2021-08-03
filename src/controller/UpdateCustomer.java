@@ -11,7 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Customer;
-import utilities.QueryClass;
+import utilities.CustomerQueries;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -98,8 +99,8 @@ public class UpdateCustomer implements Initializable {
 				createDate, createdBy, updateTime, updatedBy, customerCountry, customerDivision);
 		if (validateCustomerInfo(customer)) {
 			try {
-				QueryClass.updateCustomer(customer);
-				QueryClass.setCustomerLocation(customer);
+				CustomerQueries.updateCustomer(customer);
+				CustomerQueries.setCustomerLocation(customer);
 			} catch (SQLException throwables) {
 				throwables.printStackTrace();
 			}
@@ -172,7 +173,7 @@ public class UpdateCustomer implements Initializable {
 				selectDivisionCbx.setPromptText("-----");
 				selectDivisionCbx.setDisable(true);
 		}
-		ObservableList<String> states = QueryClass.filterDivision(customerCountry);
+		ObservableList<String> states = CustomerQueries.filterDivision(customerCountry);
 		selectDivisionCbx.setItems(states);
 	}
 
@@ -190,9 +191,9 @@ public class UpdateCustomer implements Initializable {
 		customerAddressTxt.setText(customer.getCustomerAddress());
 
 
-		selectCountryCbx.setItems(QueryClass.populateCountry());
-		selectDivisionCbx.setItems(QueryClass.populateDivision());
-		QueryClass.setCustomerLocation(customer);
+		selectCountryCbx.setItems(CustomerQueries.populateCountry());
+		selectDivisionCbx.setItems(CustomerQueries.populateDivision());
+		CustomerQueries.setCustomerLocation(customer);
 		selectCountryCbx.setValue(customer.getCustomerCountry());
 		selectDivisionCbx.setValue(customer.getCustomerDivision());
 
@@ -251,7 +252,7 @@ public class UpdateCustomer implements Initializable {
 				selectDivisionCbx.setPromptText("-----");
 				selectDivisionCbx.setDisable(true);
 		}
-		ObservableList<String> region = QueryClass.filterDivision(location);
+		ObservableList<String> region = CustomerQueries.filterDivision(location);
 		selectDivisionCbx.setItems(region);
 	}
 

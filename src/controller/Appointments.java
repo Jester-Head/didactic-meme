@@ -15,7 +15,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
-import utilities.QueryClass;
+import utilities.AppointmentQueries;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -95,7 +96,7 @@ public class Appointments implements Initializable {
 	@FXML
 	public void onActionSelectMonthly(ActionEvent event) {
 		//Show current month's appointments
-		appointmentsTbl.setItems(QueryClass.getMonthlyAppointments());
+		appointmentsTbl.setItems(AppointmentQueries.getMonthlyAppointments());
 		appointmentsTbl.setPlaceholder(new Label("No appointments this month"));
 	}
 
@@ -106,7 +107,7 @@ public class Appointments implements Initializable {
 	 */
 	@FXML
 	public void onActionSelectWeekly(ActionEvent event) {
-		appointmentsTbl.setItems(QueryClass.getWeeklyAppointments());
+		appointmentsTbl.setItems(AppointmentQueries.getWeeklyAppointments());
 		appointmentsTbl.setPlaceholder(new Label("No appointments this week"));
 	}
 
@@ -137,7 +138,7 @@ public class Appointments implements Initializable {
 			alert.setContentText(appointment.getAppointmentId() + ". " + appointment.getAppointmentType() + " at: " + appointment.getStartDateTime());
 			alert.showAndWait().ifPresent(response -> {
 				if (response == ButtonType.OK) {
-					boolean canceled = QueryClass.deleteAppointment(appointment);
+					boolean canceled = AppointmentQueries.deleteAppointment(appointment);
 					if (!canceled) {
 						alert.setAlertType(Alert.AlertType.INFORMATION);
 						alert.setHeaderText(appointment.getAppointmentType() + " Canceled");
@@ -205,7 +206,7 @@ public class Appointments implements Initializable {
 	 * Populates tableview with appointment information found in the database.
 	 */
 	public void displayAppointments() {
-		appointments.setAll(QueryClass.getAllAppointments());
+		appointments.setAll(AppointmentQueries.getAllAppointments());
 		appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
 		appointmentTypeCol.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
 		titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));

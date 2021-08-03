@@ -14,7 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.User;
-import utilities.QueryClass;
+
 
 import java.io.IOException;
 import java.net.URL;

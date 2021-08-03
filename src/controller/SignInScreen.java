@@ -22,7 +22,9 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.User;
-import utilities.QueryClass;
+import utilities.AppointmentQueries;
+import utilities.UserQueries;
+
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -90,7 +92,7 @@ public class SignInScreen implements Initializable {
 			String password = passwordPwf.getText().trim();
 
 			//Checks user credentials
-			User user = QueryClass.lookupUser(userName, password);
+			User user = UserQueries.lookupUser(userName, password);
 
 			/*The lookupUser method sets the userID to 0 by default.
 			 * If the query was a success, the userID will not be 0
@@ -102,14 +104,14 @@ public class SignInScreen implements Initializable {
 
 				try {
 					Alert alert = new Alert(Alert.AlertType.INFORMATION);
-					ObservableList<Appointment> upcomingAppointments = QueryClass.getUpcomingAppointments();
+					ObservableList<Appointment> upcomingAppointments = AppointmentQueries.getUpcomingAppointments();
 					ObservableList<String> stringObservableList = FXCollections.observableArrayList();
 					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm a");
 
 					//user has appointments in the next 15 minutes
 					if (!upcomingAppointments.isEmpty()) {
 						for (Appointment appointment : upcomingAppointments) {
-							LocalDateTime time = QueryClass.timeConversionLocal(appointment.getStartDateTime()).toLocalDateTime();
+							LocalDateTime time = AppointmentQueries.timeConversionLocal(appointment.getStartDateTime()).toLocalDateTime();
 							String appointmentInfo =
 									appointment.getAppointmentType() + " " + rb.getString("at") + " " + time.format(formatter) + "\n";
 							stringObservableList.add(appointmentInfo);

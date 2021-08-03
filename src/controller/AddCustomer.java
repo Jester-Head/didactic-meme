@@ -12,8 +12,10 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Customer;
+import utilities.ContactQueries;
+import utilities.CustomerQueries;
 import utilities.DataBaseConnection;
-import utilities.QueryClass;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -109,7 +111,7 @@ public class AddCustomer implements Initializable {
 				selectDivisionCbx.setPromptText("-----");
 				selectDivisionCbx.setDisable(true);
 		}
-		ObservableList<String> region = QueryClass.filterDivision(location);
+		ObservableList<String> region = CustomerQueries.filterDivision(location);
 		selectDivisionCbx.setItems(region);
 	}
 
@@ -167,7 +169,7 @@ public class AddCustomer implements Initializable {
 		Customer customer = new Customer(customerId, customerName, customerAddress, customerZipCode, customerPhone,
 				createDate, createdBy, updateTime, updatedBy, customerCountry, customerDivision);
 		if (validateCustomerInfo(customer)) {
-			QueryClass.insertCustomer(customer);
+			CustomerQueries.insertCustomer(customer);
 		}
 
 		onClickGoBack(event);
@@ -206,11 +208,11 @@ public class AddCustomer implements Initializable {
 	 * @throws SQLException
 	 */
 	public void populateComboBox() throws SQLException {
-		selectCountryCbx.setItems(QueryClass.populateCountry());
+		selectCountryCbx.setItems(CustomerQueries.populateCountry());
 		// Determines country selection and Sets the combo box with the names of divisions in the database;
 		ActionEvent event = new ActionEvent();
 		onActionSelectCountry(event);
-		selectDivisionCbx.setItems(QueryClass.populateDivision());
+		selectDivisionCbx.setItems(CustomerQueries.populateDivision());
 	}
 
 	@Override

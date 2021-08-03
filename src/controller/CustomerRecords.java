@@ -13,7 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
-import utilities.QueryClass;
+import utilities.CustomerQueries;
+
 
 
 import java.io.IOException;
@@ -104,7 +105,7 @@ public class CustomerRecords implements Initializable {
 			alert.setContentText("Warning: Deleting a customer will delete all records of their appointments.");
 			alert.showAndWait().ifPresent(response -> {
 				if (response == ButtonType.OK) {
-					boolean deleteCustomer = QueryClass.deleteCustomer(customer);
+					boolean deleteCustomer = CustomerQueries.deleteCustomer(customer);
 					if (!deleteCustomer) {
 						alert.setAlertType(Alert.AlertType.INFORMATION);
 						alert.setHeaderText("Customer successfully deleted " + customerId + ". " + customerName);
@@ -178,7 +179,7 @@ public class CustomerRecords implements Initializable {
 	 * Populates tableview with customer records found in the database.
 	 */
 	public void displayCustomerRecords() {
-		customerObservableList.setAll(QueryClass.getAllCustomers());
+		customerObservableList.setAll(CustomerQueries.getAllCustomers());
 		customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
 		customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
 		customerPhoneCol.setCellValueFactory(new PropertyValueFactory<>("customerPhoneNumber"));

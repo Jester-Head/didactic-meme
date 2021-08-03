@@ -12,7 +12,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Appointment;
-import utilities.QueryClass;
+import utilities.AppointmentQueries;
+import utilities.ContactQueries;
+//import utilities.QueryClass;
 
 import java.io.*;
 import java.net.URL;
@@ -30,7 +32,7 @@ import java.util.ResourceBundle;
 public class AddAppointment implements Initializable {
 
 	@FXML
-	private Spinner<Integer> selectEndMinsSpn;
+	private Spinner<Integer> selectEndMinutesSpn;
 
 	@FXML
 	private Spinner<Integer> selectStartMinsSpn;
@@ -136,7 +138,7 @@ public class AddAppointment implements Initializable {
 			//Inserts appointment if date selection is valid and appointment doesn't overlap with an existing one.
 			if (valiDate(appointment) && checkOverlaps(appointment)) {
 
-				QueryClass.insertAppointment(appointment);
+				AppointmentQueries.insertAppointment(appointment);
 				onClickGoBack(event);
 			}
 
@@ -233,7 +235,7 @@ public class AddAppointment implements Initializable {
 		String startMinsStr = String.valueOf(selectStartMinsSpn.getValue());
 		String endDateStr = String.valueOf(endDateDp.getValue());
 		String endHoursStr = String.valueOf(selectEndHoursSpn.getValue());
-		String endMinsStr = String.valueOf(selectEndMinsSpn.getValue());
+		String endMinsStr = String.valueOf(selectEndMinutesSpn.getValue());
 
 		//Checks for missing start times
 		if (startDateStr.isBlank() | startHoursStr.isBlank() | startMinsStr.isBlank()) {
@@ -298,11 +300,10 @@ public class AddAppointment implements Initializable {
 	 * Prevents user from double booking customers.
 	 * @param appointment time input.
 	 * @return  true if the new appointment doesn't overlap with an existing appointment.
-	 * @throws SQLException
 	 */
-	public Boolean checkOverlaps(Appointment appointment) throws SQLException {
+	public Boolean checkOverlaps(Appointment appointment)  {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
-		ObservableList<Appointment> allAppointments = QueryClass.getAllAppointments();
+		ObservableList<Appointment> allAppointments = AppointmentQueries.getAllAppointments();
 		LocalDateTime newAppointmentStart = appointment.getStartDateTime().toLocalDateTime();
 		LocalDateTime newAppointmentEnd = appointment.getEndDateTime().toLocalDateTime();
 		alert.setHeaderText("Timeslot unavailable");
@@ -328,7 +329,7 @@ public class AddAppointment implements Initializable {
 				overlapFlag = true;
 			}
 			//Checks if Appointment A's customer is scheduled for Appointment B.
-			if (overlapFlag == true && (appointment.getCustomerId() == overlap.getCustomerId())) {
+			if (overlapFlag && (appointment.getCustomerId() == overlap.getCustomerId())) {
 				alert.showAndWait();
 				return false;
 			}
@@ -380,7 +381,7 @@ public class AddAppointment implements Initializable {
 		endHours.setWrapAround(true);
 		endMinutes.setWrapAround(true);
 		selectEndHoursSpn.setValueFactory(endHours);
-		selectEndMinsSpn.setValueFactory(endMinutes);
+		selectEndMinutesSpn.setValueFactory(endMinutes);
 
 		//Appointment Types
 		ObservableList<String> types = FXCollections.observableArrayList("De-Briefing", "Planning Session", "Lunch " +
@@ -388,7 +389,7 @@ public class AddAppointment implements Initializable {
 		appointmentTypeCb.setItems(types);
 
 		//Contacts
-		ObservableList<Appointment> contacts = FXCollections.observableArrayList(QueryClass.queryContacts());
+		ObservableList<Appointment> contacts = FXCollections.observableArrayList(ContactQueries.queryContacts());
 		contactCb.setItems(contacts);
 
 	}

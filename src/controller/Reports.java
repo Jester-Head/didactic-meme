@@ -16,7 +16,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Appointment;
-import utilities.QueryClass;
+import utilities.AppointmentQueries;
+import utilities.ContactQueries;
+import utilities.ReportQueries;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -111,7 +114,7 @@ public class Reports implements Initializable {
 	 */
 	public void onActionSelectContact(ActionEvent event) throws SQLException {
 		int contactId = contactCB.getSelectionModel().getSelectedItem().getContactId();
-		ObservableList schedule = QueryClass.getContactAppointments(contactId);
+		ObservableList schedule = ContactQueries.getContactAppointments(contactId);
 
 
 		appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
@@ -133,7 +136,7 @@ public class Reports implements Initializable {
 	public void populateFields() {
 		monthCb.setVisible(false);
 		contactMonthCb.setVisible(false);
-		ObservableList<Appointment> contacts = FXCollections.observableArrayList(QueryClass.queryContacts());
+		ObservableList<Appointment> contacts = FXCollections.observableArrayList(ContactQueries.queryContacts());
 		contactCB.setItems(contacts);
 		ObservableList<Integer> localDateTimes = FXCollections.observableArrayList();
 		for (int year = 2000; year <= LocalDate.now().getYear(); year++) {
@@ -164,7 +167,7 @@ public class Reports implements Initializable {
 		Month month = Month.valueOf(monthStr);
 		int monthInt = month.getValue();
 
-		ObservableList<Appointment> typesCount = QueryClass.getAppointmentTypeCount(year, monthInt);
+		ObservableList<Appointment> typesCount = ReportQueries.getAppointmentTypeCount(year, monthInt);
 		typesCol.setCellValueFactory(new PropertyValueFactory<>("AppointmentType"));
 		countCol.setCellValueFactory(new PropertyValueFactory<>("TypeCount"));
 		meetingTypesTbl.setItems(typesCount);
@@ -186,7 +189,7 @@ public class Reports implements Initializable {
 		Month month = Month.valueOf(monthStr);
 		int monthInt = month.getValue();
 
-		ObservableList<Appointment> contactAppointmentCount = QueryClass.getContactAppointmentCount(year, monthInt);
+		ObservableList<Appointment> contactAppointmentCount = ContactQueries.getContactAppointmentCount(year, monthInt);
 		contactCol.setCellValueFactory(new PropertyValueFactory<>("ContactName"));
 		appointmentCountCol.setCellValueFactory(new PropertyValueFactory<>("AppointmentCount"));
 		contactStatsTbl.setItems(contactAppointmentCount);
