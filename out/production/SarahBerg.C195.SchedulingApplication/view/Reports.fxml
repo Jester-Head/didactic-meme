@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+            minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0"
+            xmlns="http://javafx.com/javafx/null" fx:controller="controller.Reports">
+    <children>
+        <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <bottom>
+                <ButtonBar prefHeight="40.0" prefWidth="200.0">
+                    <buttons>
+                        <Button fx:id="backBtn" mnemonicParsing="false" onMouseClicked="#onClickGoBack" text="Back"/>
+                    </buttons>
+                    <padding>
+                        <Insets right="20.0"/>
+                    </padding>
+                </ButtonBar>
+            </bottom>
+            <center>
+                <AnchorPane BorderPane.alignment="CENTER">
+                    <children>
+                        <VBox alignment="CENTER" layoutX="181.0" layoutY="-1.0" prefHeight="510.0" prefWidth="500.0"
+                              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                              AnchorPane.topAnchor="-1.0">
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="38.0" prefWidth="500.0" spacing="15.0">
+                                    <children>
+                                        <Label alignment="BOTTOM_LEFT" text="Contact Schedule:">
+                                            <font>
+                                                <Font name="Century Gothic" size="13.0"/>
+                                            </font>
+                                        </Label>
+                                        <ComboBox fx:id="contactCB" onAction="#onActionSelectContact" prefWidth="200.0"
+                                                  promptText="Select Contact"/>
+                                    </children>
+                                    <padding>
+                                        <Insets left="20.0"/>
+                                    </padding>
+                                </HBox>
+                                <TableView fx:id="contactScheduleTbl" prefHeight="453.0" prefWidth="479.0">
+                                    <columns>
+                                        <TableColumn fx:id="appointmentIdCol" maxWidth="1.7976931348623157E308"
+                                                     minWidth="-Infinity" prefWidth="50.0" text="Appointment ID"/>
+                                        <TableColumn fx:id="titleCol" maxWidth="1.7976931348623157E308"
+                                                     minWidth="-Infinity" text="Title"/>
+                                        <TableColumn fx:id="descriptionCol" maxWidth="1.7976931348623157E308"
+                                                     minWidth="-Infinity" prefWidth="100.0" text="Description"/>
+                                        <TableColumn fx:id="typeCol" maxWidth="1.7976931348623157E308" minWidth="-1.0"
+                                                     text="Type"/>
+                                        <TableColumn fx:id="startCol" maxWidth="1.7976931348623157E308" minWidth="-1.0"
+                                                     prefWidth="100.0" text="Start Time"/>
+                                        <TableColumn fx:id="endCol" maxWidth="1.7976931348623157E308"
+                                                     minWidth="-Infinity" prefWidth="100.0" text="End Time"/>
+                                        <TableColumn fx:id="customerIdCol" maxWidth="90.0" minWidth="-1.0"
+                                                     prefWidth="90.0" text="Customer ID"/>
+                                    </columns>
+                                    <VBox.margin>
+                                        <Insets left="10.0" right="10.0"/>
+                                    </VBox.margin>
+                                </TableView>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+            </center>
+            <top>
+                <AnchorPane prefHeight="0.0" prefWidth="900.0" BorderPane.alignment="TOP_CENTER">
+                    <children>
+                        <Label alignment="CENTER" layoutX="417.0" layoutY="25.0" text="Reports" underline="true">
+                            <font>
+                                <Font name="Century Gothic" size="18.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </AnchorPane>
+            </top>
+            <left>
+                <VBox alignment="CENTER" fillWidth="false" prefHeight="511.2" prefWidth="281.6" spacing="20.0">
+                    <children>
+                        <ComboBox fx:id="yearCb" onAction="#onActionSelectYear" prefWidth="150.0"
+                                  promptText="Select Year "/>
+                        <ComboBox fx:id="monthCb" onAction="#onActionSelectMonth" prefWidth="150.0"
+                                  promptText="Select Month"/>
+                        <TableView fx:id="meetingTypesTbl" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0"
+                                   prefWidth="200.0">
+                            <columns>
+                                <TableColumn fx:id="typesCol" prefWidth="120.0" text="Appointment Type"/>
+                                <TableColumn fx:id="countCol" prefWidth="70.0" text="Total"/>
+                            </columns>
+                        </TableView>
+                    </children>
+                    <padding>
+                        <Insets left="10.0"/>
+                    </padding>
+                </VBox>
+            </left>
+            <right>
+                <VBox alignment="CENTER" prefHeight="511.2" prefWidth="200.0" spacing="20.0">
+                    <children>
+                        <ComboBox fx:id="contactYearCb" onAction="#onActionSelectContactYear" prefWidth="150.0"
+                                  promptText="Select Year "/>
+                        <ComboBox fx:id="contactMonthCb" onAction="#onActionSelectContactMonth" prefWidth="150.0"
+                                  promptText="Select Month"/>
+                        <TableView fx:id="contactStatsTbl" maxHeight="1.7976931348623157E308"
+                                   maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+                                   prefHeight="300.0" prefWidth="200.0">
+                            <columns>
+                                <TableColumn fx:id="contactCol" prefWidth="70.0" text="Contact"/>
+                                <TableColumn fx:id="appointmentCountCol" prefWidth="130.0" text="Total Appointments"/>
+                            </columns>
+                        </TableView>
+                    </children>
+                    <padding>
+                        <Insets right="10.0"/>
+                    </padding>
+                </VBox>
+            </right>
+        </BorderPane>
+    </children>
+</AnchorPane>

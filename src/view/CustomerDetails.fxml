@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx"
+            fx:controller="controller.CustomerDetails">
+    <children>
+        <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <center>
+                <GridPane prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.20001220703125" minWidth="0.0"
+                                           prefWidth="44.5999755859375"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="147.6" minWidth="10.0"
+                                           prefWidth="103.0000244140625"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.199951171875" minWidth="10.0"
+                                           prefWidth="143.5999755859375"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="229.60000000000002" minWidth="10.0"
+                                           prefWidth="65.19997558593752"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="231.79998779296875" minWidth="0.0"
+                                           prefWidth="88.40004882812502"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="124.1999633789062" minWidth="0.0"
+                                           prefWidth="87.59995117187498"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.20001220703125" minWidth="10.0"
+                                           prefWidth="100.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints maxHeight="119.59998168945313" minHeight="10.0" prefHeight="92.4"
+                                        vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="212.80003662109374" minHeight="10.0" prefHeight="172.80002441406248"
+                                        vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="116.79994812011722" minHeight="10.0" prefHeight="107.99997558593753"
+                                        vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <children>
+                        <TableView fx:id="appointmentsTbl" prefHeight="134.0" prefWidth="180.0" GridPane.columnIndex="4"
+                                   GridPane.columnSpan="2" GridPane.rowIndex="1">
+                            <columns>
+                                <TableColumn fx:id="appointmentIdCol" prefWidth="75.0" text="Appoinment ID"/>
+                                <TableColumn fx:id="appointmentTimeCol" prefWidth="75.0" text="Time"/>
+                                <TableColumn fx:id="appointmentTypeCol" prefWidth="75.0" text="Type"/>
+                                <TableColumn fx:id="appointmentDateCol" prefWidth="75.0" text="Date"/>
+                                <TableColumn fx:id="contactCol" prefWidth="75.0" text="Contact"/>
+                                <TableColumn fx:id="descriptionCol" prefWidth="75.0" text="Description"/>
+                            </columns>
+                        </TableView>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <children>
+                                <Label fx:id="userIdLbl" text="User ID:"/>
+                                <Label fx:id="nameLbl" text="Name:"/>
+                                <Label fx:id="addressLbl" text="Address:"/>
+                                <Label fx:id="zipLbl" text="Zip Code:"/>
+                                <Label fx:id="phoneLbl" layoutX="10.0" layoutY="63.0" text="Phone:"/>
+                                <Label fx:id="countryLbl" layoutX="10.0" layoutY="80.0" text="Country:"/>
+                                <Label fx:id="stateLbl" layoutX="10.0" layoutY="98.0" text="State:"/>
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                            <children>
+                                <TextField fx:id="userIdTxt" disable="true" promptText="User ID"/>
+                                <TextField fx:id="nameTxt" disable="true" layoutX="10.0" layoutY="10.0"
+                                           promptText="Name"/>
+                                <TextField fx:id="addressTxt" disable="true" layoutX="10.0" layoutY="36.0"
+                                           promptText="Address"/>
+                                <TextField fx:id="zipTxt" disable="true" layoutX="10.0" layoutY="61.0"
+                                           promptText="Zip Code"/>
+                                <TextField fx:id="phoneTxt" disable="true" layoutX="10.0" layoutY="87.0"
+                                           promptText="Phone"/>
+                                <TextField fx:id="countryTxt" disable="true" layoutX="10.0" layoutY="112.0"
+                                           promptText="Country"/>
+                                <TextField fx:id="stateTxt" disable="true" layoutX="10.0" layoutY="138.0"
+                                           promptText="State"/>
+                            </children>
+                        </VBox>
+                    </children>
+                </GridPane>
+            </center>
+            <top>
+                <Label fx:id="detailsPageTitleLbl" text="Customer Details" BorderPane.alignment="CENTER">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+            </top>
+            <bottom>
+                <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                    <buttons>
+                        <Button fx:id="backBtn" mnemonicParsing="false" onMouseClicked="#onClickGoBack" text="Back"/>
+                    </buttons>
+                </ButtonBar>
+            </bottom>
+        </BorderPane>
+    </children>
+</AnchorPane>
