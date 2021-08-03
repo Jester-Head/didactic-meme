@@ -2,7 +2,8 @@
 
 Application Version 1.0</br>
 Date: 7/18/2021
-###Dependencies:
+
+### Dependencies:
 - IDE & SDK Versions:
 - IntelliJ IDEA Community Edition 2021.1
 - Java SE 11.0.8
