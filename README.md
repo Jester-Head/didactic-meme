@@ -1,7 +1,7 @@
 Scheduling Application
 
 Author: SB<br/>
-Application Version 1.0<br/>
+Application Version 1.0<br/> 
 Date:7/18/2021
 
 The purpose is to develop a scheduling desktop application for a multilingual global consulting organization using the following skills:
@@ -9,7 +9,7 @@ The purpose is to develop a scheduling desktop application for a multilingual gl
 -	lambda expressions
 -	collections
 -	localization
--	exception handling
+-	exception handling 
 
 Dependencies:
 -	IDE & SDK Versions:
@@ -19,9 +19,9 @@ Dependencies:
 - MySQL-connector-java-8.0.23
 
 Directions:
-- Open the application in the IDE
+- Open the application in the IDE 
 - Install MySQL connector listed above
-- For Intellij: Go into the file menu >Project Structure > Global Libraries. From there add JavaFx to the project.
+- For Intellij: Go into the file menu >Project Structure > Global Libraries. From there add JavaFx to the project. 
 
 Login:<br/>
 - Username: test<br/>
