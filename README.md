@@ -1,7 +1,7 @@
 Scheduling Application
 
-Author: SB
-Application Version 1.0 
+Author: SB<br/>
+Application Version 1.0<br/> 
 Date:7/18/2021
 
 The purpose is to develop a scheduling desktop application for a multilingual global consulting organization using the following skills:
