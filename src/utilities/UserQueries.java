@@ -57,7 +57,7 @@ public class UserQueries {
 	 * @return User logged in user.
 	 */
 	public static User lookupUser(String userName, String password) throws SQLException {
-		String userSearch = " Select * From users Where User_Name = ?" +
+		String userSearch = " Select * From didactic_meme.dbo.users Where User_Name = ?" +
 				" " +
 				"And Password = ?";
 

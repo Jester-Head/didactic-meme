@@ -11,9 +11,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import model.Appointment;
 import utilities.AppointmentQueries;
 import utilities.ContactQueries;
+import utilities.DateTimeUtility;
 //import utilities.QueryClass;
 
 import java.io.*;
@@ -25,12 +27,24 @@ import java.util.ResourceBundle;
 
 /**
  * Controller class for adding appointments.
- * Text fields are used to collect the appointment name, customer ID,user ID,location,and description.DatePickers and Spinners are used to get the event times.
+ * Text fields are used to collect the appointment name, customer ID,user ID,location,and description.DatePickers and
+ * Spinners are used to get the event times.
  * Appointment IDs are auto-generated, and first-level division,country data and contact information are collected
  * using separate combo boxes.
  */
 public class AddAppointment implements Initializable {
-
+	@FXML
+	public RadioButton endAmRb;
+	@FXML
+	public ToggleGroup endAmPmTg;
+	@FXML
+	public RadioButton endPmRb;
+	@FXML
+	public RadioButton startPmRb;
+	@FXML
+	public ToggleGroup startAmPmTg;
+	@FXML
+	public RadioButton startAmRb;
 	@FXML
 	private Spinner<Integer> selectEndMinutesSpn;
 
@@ -87,6 +101,7 @@ public class AddAppointment implements Initializable {
 	private int contactId;
 	private int customerIdInt;
 	private int userIdInt;
+	private StringConverter stringConverter;
 
 
 	public AddAppointment() {
@@ -94,6 +109,7 @@ public class AddAppointment implements Initializable {
 
 	/**
 	 * Redirects to Appointments screen.
+	 *
 	 * @param event back button clicked.
 	 * @throws IOException
 	 */
@@ -115,6 +131,7 @@ public class AddAppointment implements Initializable {
 
 	/**
 	 * Saves appointment information collected from form.
+	 *
 	 * @param event save button clicked
 	 * @throws SQLException
 	 * @throws IOException
@@ -148,6 +165,7 @@ public class AddAppointment implements Initializable {
 
 	/**
 	 * Enables user to select appointment end date.
+	 *
 	 * @param event ComboBox selection.
 	 */
 	@FXML
@@ -186,11 +204,11 @@ public class AddAppointment implements Initializable {
 				ZoneId.of("America/New_York"));
 
 		//Checks if the appointment is scheduled before the current time
-		if(startDate.isEqual(ZonedDateTime.now().toLocalDate()) || endDate.isEqual(ZonedDateTime.now().toLocalDate())){
+		if (startDate.isEqual(ZonedDateTime.now().toLocalDate()) || endDate.isEqual(ZonedDateTime.now().toLocalDate())) {
 			if (startDT.isBefore(ZonedDateTime.now().toLocalDateTime()) || endDT.isBefore(ZonedDateTime.now()
 					.toLocalDateTime()) | endDT.isBefore(startDT)) {
 				alert.setHeaderText("Invalid Date/Time Selection");
-				alert.setContentText("Appointment must be scheduled after "+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM-dd hh:mm")));
+				alert.setContentText("Appointment must be scheduled after " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM-dd hh:mm")));
 				alert.showAndWait();
 				return false;
 			}
@@ -219,8 +237,10 @@ public class AddAppointment implements Initializable {
 	 *
 	 * @return true if all fields have the proper input. Otherwise, returns false.
 	 */
+
 	public boolean validateFields() {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
+
 		String contactIdStr = String.valueOf(contactCb.getValue());
 		String userIdStr = userIdTxt.getText();
 		String type = String.valueOf(appointmentTypeCb.getValue());
@@ -231,11 +251,10 @@ public class AddAppointment implements Initializable {
 
 		//Assign values as strings to avoid multiple try/catch blocks
 		String startDateStr = String.valueOf(startDateDp.getValue());
-		String startHoursStr = String.valueOf(selectStartHoursSpn.getValue());
+		String startHoursStr = (String) stringConverter.fromString(String.valueOf(selectStartHoursSpn));
+
 		String startMinsStr = String.valueOf(selectStartMinsSpn.getValue());
-		String endDateStr = String.valueOf(endDateDp.getValue());
-		String endHoursStr = String.valueOf(selectEndHoursSpn.getValue());
-		String endMinsStr = String.valueOf(selectEndMinutesSpn.getValue());
+
 
 		//Checks for missing start times
 		if (startDateStr.isBlank() | startHoursStr.isBlank() | startMinsStr.isBlank()) {
@@ -244,6 +263,9 @@ public class AddAppointment implements Initializable {
 			alert.showAndWait();
 			return false;
 		}
+		String endDateStr = String.valueOf(endDateDp.getValue());
+		String endHoursStr = String.valueOf(selectEndHoursSpn.getValue());
+		String endMinsStr = String.valueOf(selectEndMinutesSpn.getValue());
 		//Checks for missing end times
 		if (endDateStr.isBlank() | endHoursStr.isBlank() | endMinsStr.isBlank()) {
 			alert.setHeaderText("Missing Times");
@@ -277,14 +299,14 @@ public class AddAppointment implements Initializable {
 		//Stores data as the appropriate type
 		LocalDate startDate = startDateDp.getValue();
 		LocalDate endDate = endDateDp.getValue();
-		int startHours = selectStartHoursSpn.getValue();
-		int startMins = selectStartMinsSpn.getValue();
-		LocalTime startTime = LocalTime.of(startHours, startMins);
-		this.startDateTime = Timestamp.valueOf(LocalDateTime.of(startDate, startTime));
-		int endHours = selectEndHoursSpn.getValue();
-		int endMins = selectEndHoursSpn.getValue();
-		LocalTime endTime = LocalTime.of(endHours, endMins);
-		this.endDateTime = Timestamp.valueOf(LocalDateTime.of(endDate, endTime));
+		Integer startHours = selectStartHoursSpn.getValue();
+		Integer startMins = selectStartMinsSpn.getValue();
+		//LocalTime startTime = LocalTime.of(startHours, startMins);
+		//this.startDateTime = Timestamp.valueOf(LocalDateTime.of(startDate, startTime));
+		Integer endHours = selectEndHoursSpn.getValue();
+		Integer endMins = selectEndHoursSpn.getValue();
+		//LocalTime endTime = LocalTime.of(endHours, endMins);
+		//this.endDateTime = Timestamp.valueOf(LocalDateTime.of(endDate, endTime));
 		this.customerIdInt = Integer.parseInt(customerIdTxt.getText());
 		this.userIdInt = Integer.parseInt(userIdTxt.getText());
 		this.contactId = contactCb.getSelectionModel().getSelectedItem().getContactId();
@@ -296,12 +318,30 @@ public class AddAppointment implements Initializable {
 		return true;
 	}
 
+	public LocalTime getTwelveHourTimes(Spinner<Integer> hoursSpin,Spinner<Integer> minutesSpin, ToggleGroup toggleGroup) {
+		int value = hoursSpin.getValue();
+		LocalTime convertLocalTime = null;
+		Toggle selectedToggle = toggleGroup.getSelectedToggle();
+		if (selectedToggle.equals(startAmRb) || selectedToggle.equals(endAmRb)) {
+			if (value == 12){
+				convertLocalTime = LocalTime.of(0,minutesSpin.getValue());
+			}else {
+				convertLocalTime = LocalTime.of(value,minutesSpin.getValue());
+			}
+		}else {
+			convertLocalTime = LocalTime.of(value+12,minutesSpin.getValue());
+		}
+		return convertLocalTime;
+	}
+
+
 	/**
 	 * Prevents user from double booking customers.
+	 *
 	 * @param appointment time input.
-	 * @return  true if the new appointment doesn't overlap with an existing appointment.
+	 * @return true if the new appointment doesn't overlap with an existing appointment.
 	 */
-	public Boolean checkOverlaps(Appointment appointment)  {
+	public Boolean checkOverlaps(Appointment appointment) {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 		ObservableList<Appointment> allAppointments = AppointmentQueries.getAllAppointments();
 		LocalDateTime newAppointmentStart = appointment.getStartDateTime().toLocalDateTime();
@@ -338,50 +378,28 @@ public class AddAppointment implements Initializable {
 	}
 
 	/**
+	 * Sets the DatePicker,and Spinners for time selection. Also sets ComboBoxes with appointment types and contacts.
+	 * Lambda expression is used to condense the code that adds restrictions to the DatePicker.
 	 *
-	 *  Sets the DatePicker,and Spinners for time selection. Also sets ComboBoxes with appointment types and contacts.
-	 *  Lambda expression is used to condense the code that adds restrictions to the DatePicker.
 	 * @throws SQLException
 	 */
 	public void populateFields() throws SQLException {
-		LocalDate today = LocalDate.now();
+		//Disables past calendar dates for start and end times.
+		DateTimeUtility.setDate(startDateDp, endDateDp);
+		//12hr format for start and end times
+		String setSpinner = DateTimeUtility.populateHoursTwelve(selectStartHoursSpn);
+		String dummyVar = DateTimeUtility.populateHoursTwelve(selectEndHoursSpn);
+		if (setSpinner.equalsIgnoreCase("am")) {
+			startAmRb.setSelected(true);
+			endAmRb.setSelected(true);
+		} else {
+			startPmRb.setSelected(true);
+			endPmRb.setSelected(true);
+		}
+		DateTimeUtility.populateMinutes(selectStartMinsSpn);
+		DateTimeUtility.populateMinutes(selectEndMinutesSpn);
 
-		// Disables past calendar dates for start and end times.
-		startDateDp.setDayCellFactory(picker -> new DateCell() {
-			public void updateItem(LocalDate date, boolean empty) {
-				super.updateItem(date, empty);
-				setDisable(empty || date.isBefore(today));
-			}
-		});
-		endDateDp.setDayCellFactory(picker -> new DateCell() {
-			public void updateItem(LocalDate date, boolean empty) {
-				super.updateItem(date, empty);
-				LocalDate start = startDateDp.getValue();
-				setDisable(empty || date.isBefore(today) || date.isBefore(start));
-			}
-		});
-
-
-		//Start Times
-		SpinnerValueFactory<Integer> startHours = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23,
-				LocalTime.now().getHour());
-		SpinnerValueFactory<Integer> startMinutes = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59,
-				LocalTime.now().plusMinutes(5).getMinute());
-		startHours.setWrapAround(true);
-		startMinutes.setWrapAround(true);
-
-		selectStartHoursSpn.setValueFactory(startHours);
-		selectStartMinsSpn.setValueFactory(startMinutes);
-
-		//End Times
-		SpinnerValueFactory<Integer> endHours = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 22,
-				LocalTime.now().plusHours(1).getHour());
-		SpinnerValueFactory<Integer> endMinutes = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59,
-				LocalTime.now().plusMinutes(5).getMinute());
-		endHours.setWrapAround(true);
-		endMinutes.setWrapAround(true);
-		selectEndHoursSpn.setValueFactory(endHours);
-		selectEndMinutesSpn.setValueFactory(endMinutes);
+		//TODO 24hr format
 
 		//Appointment Types
 		ObservableList<String> types = FXCollections.observableArrayList("De-Briefing", "Planning Session", "Lunch " +
@@ -396,13 +414,26 @@ public class AddAppointment implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
+
 		try {
-			// Prevents error cause by selecting an end date before selecting a start date.
+			// Prevents user from selecting an end date before choosing starting date.
 			endDateDp.setDisable(true);
 			populateFields();
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}
 
+	}
+
+	public void testFunction() {
+
+		String startHoursStr = String.valueOf(selectStartHoursSpn.getValue());
+		String startMinsStr = String.valueOf(selectStartMinsSpn.getValue());
+		if (!startHoursStr.matches("\\D") || !startMinsStr.matches("\\D")) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setHeaderText("Invalid Format");
+			alert.showAndWait();
+
+		}
 	}
 }

@@ -44,7 +44,8 @@ import java.util.*;
 public class SignInScreen implements Initializable {
 
 	private static User activeUser;
-	ResourceBundle rb = ResourceBundle.getBundle("language_files/Nat");
+	private ResourceBundle rb = ResourceBundle.getBundle("language_files/Nat");
+	private Alert alert;
 	@FXML
 	private PasswordField passwordPwf;
 	@FXML
@@ -134,11 +135,13 @@ public class SignInScreen implements Initializable {
 					e.printStackTrace();
 				}
 			} else {
-				user.setUserID(Integer.parseInt(userIdTxt.getText().trim()));
-				logUser(user, "Failed Attempt.");
+				//user.setUserID(Integer.parseInt(userIdTxt.getText().trim()));
+				String failed =  rb.getString("FailedAttempt") + ".";
+				logUser(user, failed);
 				Alert alert = new Alert(Alert.AlertType.ERROR);
-				alert.setContentText("InvalidUsernameOrPassword");
+				alert.setContentText(rb.getString("InvalidUsernameOrPassword")+".");
 				((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText(rb.getString("OK"));
+				alert.showAndWait();
 			}
 
 		}
@@ -153,7 +156,7 @@ public class SignInScreen implements Initializable {
 		try {
 			String testUserId = userIdTxt.getText().trim();
 			String password = passwordPwf.getText().trim();
-			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert = new Alert(Alert.AlertType.ERROR);
 
 			//Checks for empty fields.
 			if (testUserId.isBlank() || password.isBlank()) {
@@ -204,6 +207,7 @@ public class SignInScreen implements Initializable {
 		clearBtn.setText(rb.getString("Clear"));
 		exitBtn.setText(rb.getString("Exit"));
 		signInBtn.setText(rb.getString("Submit"));
+
 
 	}
 

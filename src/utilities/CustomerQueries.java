@@ -39,14 +39,14 @@ public class CustomerQueries {
 	/**
 	 * Queries first level divisions.
 	 *
-	 * @return ObservableList of region names located in the first_level_divisions table.
+	 * @return ObservableList of region names located in the divisions table.
 	 */
 	public static ObservableList<String> populateDivision() {
 
 		ObservableList<String> divisionNames = FXCollections.observableArrayList();
 
 		try {
-			String selectDivision = "SELECT Division FROM first_level_divisions ";
+			String selectDivision = "SELECT Division FROM divisions ";
 
 			PreparedStatement ps = DataBaseConnection.getConnection().prepareStatement(selectDivision);
 			ResultSet division = ps.executeQuery();
@@ -61,15 +61,15 @@ public class CustomerQueries {
 	}
 
 	/**
-	 * Filters first_level_divisions by matching country.
+	 * Filters divisions by matching country.
 	 *
 	 * @param country user's selected country.
-	 * @return ObservableList of filtered first_level_divisions
+	 * @return ObservableList of filtered first_level_
 	 * @throws SQLException
 	 */
 	public static ObservableList<String> filterDivision(String country) throws SQLException {
 
-		String filter = "Select fd.Division From first_level_divisions fd Join countries c On c.Country_ID = fd" +
+		String filter = "Select fd.Division From  fd Join countries c On c.Country_ID = fd" +
 				".COUNTRY_ID where Country = ?";
 		ObservableList<String> divisions = FXCollections.observableArrayList();
 		PreparedStatement ps = DataBaseConnection.getConnection().prepareStatement(filter);
@@ -90,7 +90,7 @@ public class CustomerQueries {
 	 * @throws SQLException
 	 */
 	public static String filterCountry(String divisions) throws SQLException {
-		String filter = "Select c.Country From countries c Join first_level_divisions fd On c.Country_ID=fd" +
+		String filter = "Select c.Country From countries c Join divisions fd On c.Country_ID=fd" +
 				".COUNTRY_ID" +
 				" where Division=?";
 		String country = "";
@@ -216,7 +216,7 @@ public class CustomerQueries {
 		try {
 			String queryCustomer = "SELECT c.Customer_ID, c.Customer_Name,CONCAT(c.Address, \", \", fd.Division)As " +
 					"Address,c.Postal_Code,c.Phone, c.Create_Date,c.Created_By,c.Last_Update,c.Last_Updated_By,c" +
-					".Division_ID From customers c Join first_level_divisions fd On c.Division_ID = fd.Division_ID";
+					".Division_ID From customers c Join  fd On c.Division_ID = fd.Division_ID";
 			//Gets database connection
 			PreparedStatement ps = DataBaseConnection.getConnection().prepareStatement(queryCustomer);
 			//Executes Query
@@ -264,7 +264,7 @@ public class CustomerQueries {
 	public static int findDivisionId(Customer customer) {
 		String division = customer.getCustomerDivision();
 		String country = customer.getCustomerCountry();
-		String statement = "SELECT Division_ID FROM first_level_divisions fd JOIN countries c ON c.Country_ID = fd" +
+		String statement = "SELECT Division_ID FROM divisions fd JOIN countries c ON c.Country_ID = fd" +
 				".COUNTRY_ID WHERE fd.Division = ? AND c.Country = ?";
 
 		try {
@@ -293,11 +293,11 @@ public class CustomerQueries {
 	public static void setCustomerLocation(Customer customer) {
 
 		int customerId = customer.getCustomerId();
-		String queryDivision = "Select d.Division from first_level_divisions d  join customers cu on cu.Division_ID " +
+		String queryDivision = "Select d.Division from divisions d  join customers cu on cu.Division_ID " +
 				"=" +
 				" " +
 				"d.Division_ID join countries co on co.Country_ID = d.COUNTRY_ID where Customer_ID = ?";
-		String queryCountry = "Select co.Country from countries co join first_level_divisions d on  co.Country_ID = " +
+		String queryCountry = "Select co.Country from countries co join divisions d on  co.Country_ID = " +
 				"d" +
 				".COUNTRY_ID join customers cu ON cu.Division_ID = d.Division_ID where Customer_ID = ?";
 

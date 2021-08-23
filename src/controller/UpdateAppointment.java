@@ -15,6 +15,7 @@ import model.Appointment;
 import model.User;
 import utilities.AppointmentQueries;
 import utilities.ContactQueries;
+import utilities.DateTimeUtility;
 
 
 import java.io.IOException;
@@ -25,9 +26,11 @@ import java.time.*;
 import java.time.chrono.ChronoZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+
 /**
  * Controller class for updating appointments.All original information is displayed.
- * Text fields are used to collect the appointment name, customer ID,user ID,location,and description.DatePickers and Spinners are used to get the event times.
+ * Text fields are used to collect the appointment name, customer ID,user ID,location,and description.DatePickers and
+ * Spinners are used to get the event times.
  * Appointment IDs are disabled and first-level division,country data and contact information are collected
  * using separate combo boxes.
  */
@@ -110,6 +113,7 @@ public class UpdateAppointment implements Initializable {
 
 	/**
 	 * Collects modified appointment information to add to the database.
+	 *
 	 * @param event save button clicked.
 	 * @throws IOException
 	 * @throws SQLException
@@ -150,12 +154,12 @@ public class UpdateAppointment implements Initializable {
 	}
 
 	/**
-
 	 * Displays error messages if input is incorrect.
 	 */
 	/**
 	 * Prevents scheduling appointment outside business hours in EST.
 	 * Displays error messages if input is incorrect.
+	 *
 	 * @param appointment information from text fields.
 	 * @return true if all fields are valid.
 	 */
@@ -183,11 +187,11 @@ public class UpdateAppointment implements Initializable {
 				ZoneId.of("America/New_York"));
 
 		//Checks if the appointment is scheduled before the current time
-		if(startDate.isEqual(ZonedDateTime.now().toLocalDate()) || endDate.isEqual(ZonedDateTime.now().toLocalDate())){
+		if (startDate.isEqual(ZonedDateTime.now().toLocalDate()) || endDate.isEqual(ZonedDateTime.now().toLocalDate())) {
 			if (startDT.isBefore(ZonedDateTime.now().toLocalDateTime()) || endDT.isBefore(ZonedDateTime.now()
 					.toLocalDateTime()) | endDT.isBefore(startDT)) {
 				alert.setHeaderText("Invalid Date/Time Selection");
-				alert.setContentText("Appointment must be scheduled after "+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM-dd hh:mm")));
+				alert.setContentText("Appointment must be scheduled after " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM-dd hh:mm")));
 				alert.showAndWait();
 				return false;
 			}
@@ -213,6 +217,7 @@ public class UpdateAppointment implements Initializable {
 
 	/**
 	 * Provides input validation for text fields.
+	 *
 	 * @return true if all input passes error checks,Otherwise, false.
 	 */
 	public boolean validateFields() {
@@ -308,7 +313,8 @@ public class UpdateAppointment implements Initializable {
 			LocalDateTime overlapStart = overlap.getStartDateTime().toLocalDateTime();
 			LocalDateTime overlapEnd = overlap.getEndDateTime().toLocalDateTime();
 
-			boolean overlapFlag = newAppointmentStart.isAfter(overlapStart) && newAppointmentStart.isBefore(overlapEnd);
+			boolean overlapFlag =
+					newAppointmentStart.isAfter(overlapStart) && newAppointmentStart.isBefore(overlapEnd);
 
 			// Appointment A Starts between Appointment B Start-End
 			//Appointment A Ends between Appointment B Start-End.
@@ -346,6 +352,7 @@ public class UpdateAppointment implements Initializable {
 
 	/**
 	 * Sets texts fields with selected appointment information.
+	 *
 	 * @param selectedItem Tableview selection.
 	 */
 	public void transferInformation(Appointment selectedItem) {
@@ -361,21 +368,7 @@ public class UpdateAppointment implements Initializable {
 		contactCb.setValue(appointment);
 
 		//Disables past dates for start and end times
-		startDateDp.setDayCellFactory(picker -> new DateCell() {
-			public void updateItem(LocalDate date, boolean empty) {
-				super.updateItem(date, empty);
-				LocalDate today = LocalDate.now();
-				setDisable(empty || date.isBefore(today));
-			}
-		});
-		endDateDp.setDayCellFactory(picker -> new DateCell() {
-			public void updateItem(LocalDate date, boolean empty) {
-				super.updateItem(date, empty);
-				LocalDate today = LocalDate.now();
-				LocalDate start = startDateDp.getValue();
-				setDisable(empty || date.isBefore(today) | date.isBefore(start));
-			}
-		});
+		DateTimeUtility.setDate(startDateDp, endDateDp);
 
 		startDateDp.setValue(selectedItem.getStartDateTime().toLocalDateTime().toLocalDate());
 		endDateDp.setValue(selectedItem.getEndDateTime().toLocalDateTime().toLocalDate());
