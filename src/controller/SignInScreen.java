@@ -135,7 +135,7 @@ public class SignInScreen implements Initializable {
 					e.printStackTrace();
 				}
 			} else {
-				//user.setUserID(Integer.parseInt(userIdTxt.getText().trim()));
+				user.setUserID(Integer.parseInt(userIdTxt.getText().trim()));
 				String failed =  rb.getString("FailedAttempt") + ".";
 				logUser(user, failed);
 				Alert alert = new Alert(Alert.AlertType.ERROR);

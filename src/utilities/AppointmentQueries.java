@@ -63,7 +63,7 @@ public class AppointmentQueries {
 				Timestamp.valueOf(String.valueOf(timeConversionUTC(Timestamp.valueOf(LocalDateTime.now().plusMinutes(15)))));
 		Timestamp now = Timestamp.valueOf(String.valueOf(timeConversionUTC(Timestamp.valueOf(LocalDateTime.now()))));
 
-		PreparedStatement ps = DataBaseConnection.getConnection().prepareStatement("Select * From appointments Where" +
+		PreparedStatement ps = DataBaseConnection.getConnection().prepareStatement("Select * From  didactic_meme.dbo.appointments Where" +
 				" " +
 				"Start Between ? And ? And User_ID = ? ");
 
