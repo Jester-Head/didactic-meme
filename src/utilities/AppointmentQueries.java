@@ -105,7 +105,7 @@ public class AppointmentQueries {
 	 */
 	public static ObservableList<Appointment> getAllAppointments() {
 		appointmentObservableList.clear();
-		String findApp = "SELECT * FROM appointments a Left Outer Join contacts as c ON a.Contact_ID = c.Contact_ID";
+		String findApp = "SELECT * FROM didactic_meme.dbo.appointments a Left Outer Join contacts as c ON a.Contact_ID = c.Contact_ID";
 
 		try {
 			PreparedStatement ps = DataBaseConnection.getConnection().prepareStatement(findApp);
@@ -173,7 +173,7 @@ public class AppointmentQueries {
 		//appointmentObservableList.clear();
 
 
-		String updateAppointment = "Update appointments Set Title=?,Description=?,Location=?," +
+		String updateAppointment = "Update didactic_meme.dbo.appointments Set Title=?,Description=?,Location=?," +
 				"Type=?,Start=?,End=?,Last_Update=?,Last_Updated_By=?,Customer_ID=?," +
 				"User_ID=?,Contact_ID=? Where Appointment_ID = ?";
 
@@ -226,7 +226,7 @@ public class AppointmentQueries {
 	 */
 	public static void insertAppointment(Appointment appointment) {
 		appointmentObservableList.clear();
-		String addAppointment = "Insert Into appointments VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String addAppointment = "Insert Into didactic_meme.dbo.appointments VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 		try {
@@ -282,7 +282,7 @@ public class AppointmentQueries {
 	public static boolean deleteAppointment(Appointment appointment) {
 		boolean results = true;
 		int appointmentId = appointment.getAppointmentId();
-		String deleteAppointments = "Delete from appointments Where Appointment_ID = ?";
+		String deleteAppointments = "Delete from didactic_meme.dbo.appointments Where Appointment_ID = ?";
 		try {
 			PreparedStatement psa = DataBaseConnection.getConnection().prepareStatement(deleteAppointments);
 			psa.setInt(1, appointmentId);
@@ -304,7 +304,7 @@ public class AppointmentQueries {
 	 */
 	public static ObservableList<Appointment> getMonthlyAppointments() {
 		appointmentObservableList.clear();
-		String monthly = "Select * From appointments a Left Outer Join contacts c On a.Contact_ID = c.Contact_ID " +
+		String monthly = "Select * From didactic_meme.dbo.appointments a Left Outer Join contacts c On a.Contact_ID = c.Contact_ID " +
 				"Where" +
 				" (MONTH(Start)=MONTH(now()) and YEAR(Start)=YEAR(now()))";
 		try {
@@ -364,7 +364,7 @@ public class AppointmentQueries {
 	 */
 	public static ObservableList<Appointment> getWeeklyAppointments() {
 		appointmentObservableList.clear();
-		String monthly = "Select * From appointments a Left Outer Join contacts c On a.Contact_ID = c.Contact_ID " +
+		String monthly = "Select * From didactic_meme.dbo.appointments a Left Outer Join contacts c On a.Contact_ID = c.Contact_ID " +
 				"Where" +
 				" (Week(Start)=Week(now()) and YEAR(Start)=YEAR(now()))";
 		try {
