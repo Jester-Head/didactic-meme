@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import model.Appointment;
 import utilities.AppointmentQueries;
-import utilities.ContactQueries;
 import utilities.DateTimeUtility;
 //import utilities.QueryClass;
 
@@ -101,7 +100,7 @@ public class AddAppointment implements Initializable {
 	private int contactId;
 	private int customerIdInt;
 	private int userIdInt;
-	private StringConverter stringConverter;
+	private StringConverter<String> stringConverter;
 
 
 	public AddAppointment() {
@@ -251,7 +250,8 @@ public class AddAppointment implements Initializable {
 
 		//Assign values as strings to avoid multiple try/catch blocks
 		String startDateStr = String.valueOf(startDateDp.getValue());
-		String startHoursStr = (String) stringConverter.fromString(String.valueOf(selectStartHoursSpn));
+
+		String startHoursStr = stringConverter.fromString(String.valueOf(selectStartHoursSpn));
 
 		String startMinsStr = String.valueOf(selectStartMinsSpn.getValue());
 
@@ -320,8 +320,8 @@ public class AddAppointment implements Initializable {
 
 	public LocalTime getTwelveHourTimes(Spinner<Integer> hoursSpin,Spinner<Integer> minutesSpin, ToggleGroup toggleGroup) {
 		int value = hoursSpin.getValue();
-		LocalTime convertLocalTime = null;
 		Toggle selectedToggle = toggleGroup.getSelectedToggle();
+		LocalTime convertLocalTime;
 		if (selectedToggle.equals(startAmRb) || selectedToggle.equals(endAmRb)) {
 			if (value == 12){
 				convertLocalTime = LocalTime.of(0,minutesSpin.getValue());
@@ -407,8 +407,8 @@ public class AddAppointment implements Initializable {
 		appointmentTypeCb.setItems(types);
 
 		//Contacts
-		ObservableList<Appointment> contacts = FXCollections.observableArrayList(ContactQueries.queryContacts());
-		contactCb.setItems(contacts);
+/*		ObservableList<Appointment> contacts = FXCollections.observableArrayList(ContactQueries.queryContacts());
+		contactCb.setItems(contacts);*/
 
 	}
 
