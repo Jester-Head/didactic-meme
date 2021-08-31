@@ -195,5 +195,6 @@ public class CustomerRecords implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		displayCustomerRecords();
+		ButtonBar.setButtonData(backBtn, ButtonBar.ButtonData.BACK_PREVIOUS);
 	}
 }

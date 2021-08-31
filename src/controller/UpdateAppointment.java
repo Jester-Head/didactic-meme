@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import model.Appointment;
 import model.User;
 import utilities.AppointmentQueries;
-import utilities.ContactQueries;
 import utilities.DateTimeUtility;
 
 
@@ -330,7 +329,7 @@ public class UpdateAppointment implements Initializable {
 				overlapFlag = true;
 			}
 			//Checks if Appointment A's customer is scheduled for Appointment B.
-			if (overlapFlag == true && (appointment.getCustomerId() == overlap.getCustomerId())) {
+			if (overlapFlag && (appointment.getCustomerId() == overlap.getCustomerId())) {
 				alert.showAndWait();
 				return false;
 			}
@@ -364,8 +363,7 @@ public class UpdateAppointment implements Initializable {
 		userIdTxt.setText(String.valueOf(selectedItem.getUserId()));
 		descriptionTxt.setText(selectedItem.getDescription());
 		locationTxt.setText(selectedItem.getLocation());
-		Appointment appointment = ContactQueries.getContactInfo(selectedItem.getContactId());
-		contactCb.setValue(appointment);
+
 
 		//Disables past dates for start and end times
 		DateTimeUtility.setDate(startDateDp, endDateDp);
@@ -430,9 +428,6 @@ public class UpdateAppointment implements Initializable {
 				"Meeting", "Other");
 		appointmentTypeCb.setItems(types);
 
-		//Contacts
-		ObservableList<Appointment> contacts = FXCollections.observableArrayList(ContactQueries.queryContacts());
-		contactCb.setItems(contacts);
 	}
 
 

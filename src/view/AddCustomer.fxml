@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/null"
             fx:controller="controller.AddCustomer">
@@ -25,38 +20,59 @@
         </ButtonBar>
     </bottom>
     <center>
-        <VBox spacing="5.0">
+        <VBox alignment="CENTER_LEFT" spacing="5.0">
             <children>
-                <Label text="Customer ID:">
+                <Label fx:id="customerIdLbl" text="Customer ID:">
                     <font>
                         <Font name="Century Gothic" size="13.0"/>
                     </font>
                 </Label>
-                <TextField fx:id="customerIdTxt" disable="true" promptText="Auto-generated"/>
                 <Label text="Name:">
                     <font>
                         <Font name="Century Gothic" size="13.0"/>
                     </font>
                 </Label>
-                <TextField fx:id="customerNameTxt"/>
+                <TextField fx:id="customerNameTxt" promptText="Name"/>
                 <Label text="Address:">
                     <font>
                         <Font name="Century Gothic" size="13.0"/>
                     </font>
                 </Label>
-                <TextField fx:id="customerAddressTxt"/>
+                <TextField fx:id="customerAddressTxt" promptText="Address"/>
                 <Label text="Zip Code:">
                     <font>
                         <Font name="Century Gothic" size="13.0"/>
                     </font>
                 </Label>
-                <TextField fx:id="customerZipCodeTxt"/>
+                <TextField fx:id="customerZipCodeTxt" promptText="Zip code"/>
                 <Label text="Phone:">
                     <font>
                         <Font name="Century Gothic" size="13.0"/>
                     </font>
                 </Label>
-                <TextField fx:id="customerPhoneTxt" promptText="555-555-5555"/>
+                <HBox prefHeight="0.0" prefWidth="271.0" spacing="5.0">
+                    <children>
+                        <TextField fx:id="phone1txt" prefHeight="23.0" prefWidth="50.0" promptText="123">
+                            <font>
+                                <Font name="Century Gothic" size="12.0"/>
+                            </font>
+                        </TextField>
+                        <Label layoutX="96.0" layoutY="10.0" text="-"/>
+                        <TextField fx:id="phone2txt" layoutX="10.0" layoutY="10.0" prefHeight="23.0" prefWidth="50.0"
+                                   promptText="456">
+                            <font>
+                                <Font name="Century Gothic" size="12.0"/>
+                            </font>
+                        </TextField>
+                        <Label text="-"/>
+                        <TextField fx:id="phone3txt" layoutX="146.0" layoutY="10.0" prefHeight="23.0" prefWidth="50.0"
+                                   promptText="7890">
+                            <font>
+                                <Font name="Century Gothic" size="12.0"/>
+                            </font>
+                        </TextField>
+                    </children>
+                </HBox>
                 <Label text="Location:">
                     <font>
                         <Font name="Century Gothic" size="13.0"/>
@@ -76,7 +92,7 @@
         </VBox>
     </center>
     <top>
-        <Label text="Add New Customer" underline="true" BorderPane.alignment="CENTER">
+        <Label text="Add Customer" underline="true" BorderPane.alignment="CENTER">
             <font>
                 <Font name="Century Gothic" size="18.0"/>
             </font>

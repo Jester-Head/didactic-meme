@@ -17,7 +17,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Appointment;
 import utilities.AppointmentQueries;
-import utilities.ContactQueries;
 import utilities.ReportQueries;
 
 
@@ -114,7 +113,7 @@ public class Reports implements Initializable {
 	 */
 	public void onActionSelectContact(ActionEvent event) throws SQLException {
 		int contactId = contactCB.getSelectionModel().getSelectedItem().getContactId();
-		ObservableList schedule = ContactQueries.getContactAppointments(contactId);
+//		ObservableList schedule = ContactQueries.getContactAppointments(contactId);
 
 
 		appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
@@ -125,7 +124,7 @@ public class Reports implements Initializable {
 		startCol.setCellValueFactory(new PropertyValueFactory<>("startDateTime"));
 		endCol.setCellValueFactory(new PropertyValueFactory<>("endDateTime"));
 		customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-		contactScheduleTbl.setItems(schedule);
+//		contactScheduleTbl.setItems(schedule);
 
 
 	}
@@ -136,8 +135,8 @@ public class Reports implements Initializable {
 	public void populateFields() {
 		monthCb.setVisible(false);
 		contactMonthCb.setVisible(false);
-		ObservableList<Appointment> contacts = FXCollections.observableArrayList(ContactQueries.queryContacts());
-		contactCB.setItems(contacts);
+//		ObservableList<Appointment> contacts = FXCollections.observableArrayList(ContactQueries.queryContacts());
+//		contactCB.setItems(contacts);
 		ObservableList<Integer> localDateTimes = FXCollections.observableArrayList();
 		for (int year = 2000; year <= LocalDate.now().getYear(); year++) {
 			localDateTimes.add(year);
@@ -189,10 +188,11 @@ public class Reports implements Initializable {
 		Month month = Month.valueOf(monthStr);
 		int monthInt = month.getValue();
 
-		ObservableList<Appointment> contactAppointmentCount = ContactQueries.getContactAppointmentCount(year, monthInt);
+		//ObservableList<Appointment> contactAppointmentCount = ContactQueries.getContactAppointmentCount(year,
+		// monthInt);
 		contactCol.setCellValueFactory(new PropertyValueFactory<>("ContactName"));
 		appointmentCountCol.setCellValueFactory(new PropertyValueFactory<>("AppointmentCount"));
-		contactStatsTbl.setItems(contactAppointmentCount);
+		//contactStatsTbl.setItems(contactAppointmentCount);
 	}
 
 	@Override

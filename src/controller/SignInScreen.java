@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import model.Appointment;
 import model.User;
 import utilities.AppointmentQueries;
+import utilities.DataBaseConnection;
 import utilities.UserQueries;
 
 
@@ -30,6 +31,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -102,6 +104,8 @@ public class SignInScreen implements Initializable {
 				activeUser = user;
 				//Logs user session.
 				logUser(user, "Success");
+				String database = "sp_defaultdb [ @loginame = ] 'dbuser', [ @defdb = ] 'didactic-meme' ";
+				DataBaseConnection.getConnection().prepareStatement(database);
 
 				try {
 					Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -135,7 +139,7 @@ public class SignInScreen implements Initializable {
 					e.printStackTrace();
 				}
 			} else {
-				user.setUserID(Integer.parseInt(userIdTxt.getText().trim()));
+				//user.setUserID(Integer.parseInt(userIdTxt.getText().trim()));
 				String failed =  rb.getString("FailedAttempt") + ".";
 				logUser(user, failed);
 				Alert alert = new Alert(Alert.AlertType.ERROR);

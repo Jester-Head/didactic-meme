@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0"
+            minWidth="680.0" pickOnBounds="false" xmlns="http://javafx.com/javafx/null"
+            fx:controller="controller.SignInScreen">
+    <center>
+        <AnchorPane>
+            <children>
+                <VBox layoutX="239.0" layoutY="89.0" spacing="10.0">
+                    <children>
+                        <Label fx:id="userIdLbl" prefHeight="18.0" prefWidth="147.0" text="User Name:" underline="true">
+                            <font>
+                                <Font name="Century Gothic" size="14.0"/>
+                            </font>
+                        </Label>
+                        <TextField fx:id="userIdTxt" alignment="TOP_LEFT">
+                            <font>
+                                <Font name="Century Gothic" size="12.0"/>
+                            </font>
+                        </TextField>
+                        <Label fx:id="passwordLbl" contentDisplay="CENTER" prefHeight="20.0" prefWidth="154.0"
+                               text="Password:" underline="true">
+                            <font>
+                                <Font name="Century Gothic" size="14.0"/>
+                            </font>
+                        </Label>
+                        <PasswordField fx:id="passwordPwf" alignment="TOP_LEFT"/>
+                        <ButtonBar>
+                            <buttons>
+                                <Button fx:id="clearBtn" mnemonicParsing="false" onMouseClicked="#onClickClearForm"
+                                        text="Clear">
+                                    <font>
+                                        <Font name="Century Gothic" size="12.0"/>
+                                    </font>
+                                </Button>
+                                <Button fx:id="signInBtn" mnemonicParsing="false" onMouseClicked="#onClickSignIn"
+                                        text="Submit">
+                                    <font>
+                                        <Font name="Century Gothic" size="12.0"/>
+                                    </font>
+                                </Button>
+                            </buttons>
+                            <VBox.margin>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </VBox.margin>
+                        </ButtonBar>
+                    </children>
+                    <padding>
+                        <Insets left="10.0"/>
+                    </padding>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </center>
+    <top>
+        <AnchorPane BorderPane.alignment="TOP_RIGHT">
+            <BorderPane.margin>
+                <Insets top="15.0"/>
+            </BorderPane.margin>
+            <children>
+                <Label fx:id="languageLbl" alignment="TOP_LEFT" layoutX="550.0" text="Language" underline="true"
+                       wrapText="true">
+                    <font>
+                        <Font name="Century Gothic" size="14.0"/>
+                    </font>
+                    <padding>
+                        <Insets left="15.0"/>
+                    </padding>
+                </Label>
+                <Label fx:id="timezoneLbl" alignment="TOP_LEFT" text="Timezone:" underline="true" wrapText="true">
+                    <font>
+                        <Font name="Century Gothic" size="14.0"/>
+                    </font>
+                    <padding>
+                        <Insets left="15.0"/>
+                    </padding>
+                </Label>
+            </children>
+        </AnchorPane>
+    </top>
+    <bottom>
+        <AnchorPane BorderPane.alignment="CENTER_RIGHT">
+            <children>
+                <ButtonBar layoutX="580.0">
+                    <buttons>
+                        <Button fx:id="exitBtn" alignment="BASELINE_CENTER" mnemonicParsing="false"
+                                onMouseClicked="#onClickExit" text="Exit">
+                            <font>
+                                <Font name="Century Gothic" size="12.0"/>
+                            </font>
+                        </Button>
+                    </buttons>
+                </ButtonBar>
+            </children>
+            <BorderPane.margin>
+                <Insets bottom="15.0" right="15.0"/>
+            </BorderPane.margin>
+        </AnchorPane>
+    </bottom>
+</BorderPane>

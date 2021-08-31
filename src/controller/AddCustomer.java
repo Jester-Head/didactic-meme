@@ -1,6 +1,7 @@
 package controller;
 
 
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Customer;
-import utilities.ContactQueries;
 import utilities.CustomerQueries;
 import utilities.DataBaseConnection;
 
@@ -33,6 +33,14 @@ import java.util.ResourceBundle;
 public class AddCustomer implements Initializable {
 
 	@FXML
+	private Label customerIdLbl;
+	@FXML
+	private TextField phone1txt;
+	@FXML
+	private TextField phone2txt;
+	@FXML
+	private TextField phone3txt;
+	@FXML
 	private Button backBtn;
 
 	@FXML
@@ -40,9 +48,6 @@ public class AddCustomer implements Initializable {
 
 	@FXML
 	private Button mainMenuBtn;
-
-	@FXML
-	private TextField customerIdTxt;
 
 	@FXML
 	private TextField customerNameTxt;
@@ -61,6 +66,7 @@ public class AddCustomer implements Initializable {
 
 	@FXML
 	private ComboBox<String> selectCountryCbx;
+
 
 	/**
 	 * Uses selected country to find customer's region.
@@ -156,7 +162,9 @@ public class AddCustomer implements Initializable {
 		String customerName = customerNameTxt.getText();
 		String customerZipCode = customerZipCodeTxt.getText();
 		String customerAddress = customerAddressTxt.getText();
-		String customerPhone = customerPhoneTxt.getText();
+
+		String customerPhone = phone1txt.getText() + "-" + phone2txt.getText() + "-" + phone3txt.getText().replaceAll(
+				"^0", "").stripLeading();
 		String customerCountry = String.valueOf(selectCountryCbx.getSelectionModel().getSelectedItem());
 		String customerDivision = String.valueOf(selectDivisionCbx.getSelectionModel().getSelectedItem());
 
@@ -170,9 +178,9 @@ public class AddCustomer implements Initializable {
 				createDate, createdBy, updateTime, updatedBy, customerCountry, customerDivision);
 		if (validateCustomerInfo(customer)) {
 			CustomerQueries.insertCustomer(customer);
+			onClickGoBack(event);
 		}
 
-		onClickGoBack(event);
 
 	}
 
@@ -184,18 +192,14 @@ public class AddCustomer implements Initializable {
 	public boolean validateCustomerInfo(Customer customer) {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 		alert.setHeaderText("Invalid input");
-		String customerPhone = customerPhoneTxt.getText().replaceAll("-", "");
+		String customerPhone = customer.getCustomerPhoneNumber().replace("-", "").replaceAll("^0", "").stripLeading();
 		if (customer.getCustomerZip().length() != 5) {
 			alert.setContentText("Postal code must contain 5 characters.");
 			alert.showAndWait();
 			return false;
 		}
-		if (customer.getCustomerCountry() == "U.K" && customerPhone.length() != 12) {
-			alert.setContentText("Phone number must contain 12 digits.");
-			alert.showAndWait();
-			return false;
-		} else if (customerPhone.length() != 10) {
-			alert.setContentText("Phone number must contain 10 digits.");
+
+		if (customerPhone.length() != 10) {
 			alert.showAndWait();
 			return false;
 		}
@@ -219,6 +223,7 @@ public class AddCustomer implements Initializable {
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		try {
 			populateComboBox();
+			customerIdLbl.setText("Customer ID:  " + "Automatically Generated");
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}
