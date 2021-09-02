@@ -18,16 +18,18 @@ public class UserQueries {
 	 * @return ObservableList users.
 	 */
 	public static ObservableList<User> getAllUsers() throws SQLException {
-		String queryUser = "Select * From users";
+		String queryUser = "SELECT * FROM didactic_meme.dbo.users";
 		PreparedStatement ps = DataBaseConnection.getConnection().prepareStatement(queryUser);
 
 		ResultSet rs = ps.executeQuery();
-		String userName = rs.getString("User_Name");
-		int userId = rs.getInt("User_ID");
-		String password = rs.getString("Password");
+		while (rs.next()) {
+			String userName = rs.getString("User_Name");
+			int userId = rs.getInt("User_ID");
+			String password = rs.getString("Password");
 
-		User user = new User(userId, userName, password);
-		userObservableList.add(user);
+			User user = new User(userId, userName, password);
+			userObservableList.add(user);
+		}
 		return userObservableList;
 	}
 
@@ -37,7 +39,7 @@ public class UserQueries {
 	 * @return User logged in user.
 	 */
 	public static User lookupUser(int activeUserId) throws SQLException {
-		String userSearch = "Select * From users Where User_ID = ?";
+		String userSearch = "SELECT * FROM didactic_meme.dbo.users Where User_ID = ?";
 
 		PreparedStatement ps = DataBaseConnection.getConnection().prepareStatement(userSearch);
 		ps.setInt(1, activeUserId);
@@ -57,7 +59,7 @@ public class UserQueries {
 	 * @return User logged in user.
 	 */
 	public static User lookupUser(String userName, String password) throws SQLException {
-		String userSearch = " Select * From didactic_meme.dbo.users Where User_Name = ?" +
+		String userSearch = " SELECT * FROM didactic_meme.dbo.users Where User_Name = ?" +
 				" " +
 				"And Password = ?";
 
@@ -67,11 +69,11 @@ public class UserQueries {
 		ps.setString(2, password);
 
 		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
+		if (rs.next()) {
 			int userID = rs.getInt("User_ID");
-
 			return new User(userID, userName, password);
 		}
+
 		return new User(0, null, null);
 	}
 }

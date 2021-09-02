@@ -13,8 +13,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import model.Appointment;
+import model.Customer;
+import model.User;
 import utilities.AppointmentQueries;
+import utilities.CustomerQueries;
 import utilities.DateTimeUtility;
+import utilities.UserQueries;
 //import utilities.QueryClass;
 
 import java.io.*;
@@ -45,25 +49,22 @@ public class AddAppointment implements Initializable {
 	@FXML
 	public RadioButton startAmRb;
 	@FXML
+	public Label appointmentIdLbl;
+	@FXML
+	public ComboBox userCb;
+	@FXML
+	public ComboBox customerCb;
+	@FXML
 	private Spinner<Integer> selectEndMinutesSpn;
 
 	@FXML
-	private Spinner<Integer> selectStartMinsSpn;
+	private Spinner<Integer> selectStartMinutesSpn;
 
 	@FXML
 	private TextField locationTxt;
 
 	@FXML
-	private ComboBox<Appointment> contactCb;
-
-	@FXML
 	private TextField appointmentNameTxt;
-
-	@FXML
-	private TextField customerIdTxt;
-
-	@FXML
-	private TextField userIdTxt;
 
 	@FXML
 	private TextField appointmentIdTxt;
@@ -240,10 +241,10 @@ public class AddAppointment implements Initializable {
 	public boolean validateFields() {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 
-		String contactIdStr = String.valueOf(contactCb.getValue());
-		String userIdStr = userIdTxt.getText();
+		//String contactIdStr = String.valueOf(contactCb.getValue());
+		//String userIdStr = userIdTxt.getText();
 		String type = String.valueOf(appointmentTypeCb.getValue());
-		String customerIdStr = customerIdTxt.getText();
+		//String customerIdStr = customerIdTxt.getText();
 		String name = appointmentNameTxt.getText();
 		String desc = descriptionTxt.getText();
 		String loc = locationTxt.getText();
@@ -253,11 +254,11 @@ public class AddAppointment implements Initializable {
 
 		String startHoursStr = stringConverter.fromString(String.valueOf(selectStartHoursSpn));
 
-		String startMinsStr = String.valueOf(selectStartMinsSpn.getValue());
+		String startMinutesStr = String.valueOf(selectStartMinutesSpn.getValue());
 
 
 		//Checks for missing start times
-		if (startDateStr.isBlank() | startHoursStr.isBlank() | startMinsStr.isBlank()) {
+		if (startDateStr.isBlank() | startHoursStr.isBlank() | startMinutesStr.isBlank()) {
 			alert.setHeaderText("Missing Times");
 			alert.setContentText("Please select a start date and time.");
 			alert.showAndWait();
@@ -265,9 +266,9 @@ public class AddAppointment implements Initializable {
 		}
 		String endDateStr = String.valueOf(endDateDp.getValue());
 		String endHoursStr = String.valueOf(selectEndHoursSpn.getValue());
-		String endMinsStr = String.valueOf(selectEndMinutesSpn.getValue());
+		String endMinutesStr = String.valueOf(selectEndMinutesSpn.getValue());
 		//Checks for missing end times
-		if (endDateStr.isBlank() | endHoursStr.isBlank() | endMinsStr.isBlank()) {
+		if (endDateStr.isBlank() | endHoursStr.isBlank() | endMinutesStr.isBlank()) {
 			alert.setHeaderText("Missing Times");
 			alert.setContentText("Please select an end date and time.");
 			alert.showAndWait();
@@ -275,41 +276,44 @@ public class AddAppointment implements Initializable {
 		}
 
 		//Checking for blank fields
-		if (name.isBlank() | desc.isBlank() | loc.isBlank() | type.isBlank() | customerIdStr.isBlank() | userIdStr.isBlank() | contactIdStr.isBlank()) {
+/*		if (name.isBlank() | desc.isBlank() | loc.isBlank() | type.isBlank() | customerIdStr.isBlank() | userIdStr
+.isBlank() | contactIdStr.isBlank()) {
 			alert.setContentText("Please fill out all text fields.");
 			alert.showAndWait();
 			return false;
-		}
+		}*/
 
 		//User ID must only contain integers
-		if (userIdStr.matches("\\D")) {
-			alert.setHeaderText("Invalid User ID");
-			alert.setContentText("User ID must only contain numerical values.");
-			alert.showAndWait();
-			return false;
-		}
+//		if (userIdStr.matches("\\D")) {
+//			alert.setHeaderText("Invalid User ID");
+//			alert.setContentText("User ID must only contain numerical values.");
+//			alert.showAndWait();
+//			return false;
+//		}
 		//Customer ID must only contain integers
+/*
 		if (customerIdStr.matches("\\D")) {
 			alert.setHeaderText("Invalid Customer ID");
 			alert.setContentText("Customer ID must only contain numerical values.");
 			alert.showAndWait();
 			return false;
 		}
+*/
 
 		//Stores data as the appropriate type
 		LocalDate startDate = startDateDp.getValue();
 		LocalDate endDate = endDateDp.getValue();
 		Integer startHours = selectStartHoursSpn.getValue();
-		Integer startMins = selectStartMinsSpn.getValue();
-		//LocalTime startTime = LocalTime.of(startHours, startMins);
+		Integer startMinutes = selectStartMinutesSpn.getValue();
+		//LocalTime startTime = LocalTime.of(startHours, startMinutes);
 		//this.startDateTime = Timestamp.valueOf(LocalDateTime.of(startDate, startTime));
 		Integer endHours = selectEndHoursSpn.getValue();
-		Integer endMins = selectEndHoursSpn.getValue();
-		//LocalTime endTime = LocalTime.of(endHours, endMins);
+		Integer endMinutes = selectEndHoursSpn.getValue();
+		//LocalTime endTime = LocalTime.of(endHours, endMinutes);
 		//this.endDateTime = Timestamp.valueOf(LocalDateTime.of(endDate, endTime));
-		this.customerIdInt = Integer.parseInt(customerIdTxt.getText());
-		this.userIdInt = Integer.parseInt(userIdTxt.getText());
-		this.contactId = contactCb.getSelectionModel().getSelectedItem().getContactId();
+		//this.customerIdInt = Integer.parseInt(customerIdTxt.getText());
+		//this.userIdInt = Integer.parseInt(userIdTxt.getText());
+		//this.contactId = contactCb.getSelectionModel().getSelectedItem().getContactId();
 		this.appointmentType = type;
 		this.title = name;
 		this.description = desc;
@@ -396,19 +400,18 @@ public class AddAppointment implements Initializable {
 			startPmRb.setSelected(true);
 			endPmRb.setSelected(true);
 		}
-		DateTimeUtility.populateMinutes(selectStartMinsSpn);
+		DateTimeUtility.populateMinutes(selectStartMinutesSpn);
 		DateTimeUtility.populateMinutes(selectEndMinutesSpn);
 
 		//TODO 24hr format
 
-		//Appointment Types
-		ObservableList<String> types = FXCollections.observableArrayList("De-Briefing", "Planning Session", "Lunch " +
-				"Meeting", "Other");
-		appointmentTypeCb.setItems(types);
+		ObservableList<User> users = FXCollections.observableArrayList(UserQueries.getAllUsers());
+		userCb.setItems(users);
 
-		//Contacts
-/*		ObservableList<Appointment> contacts = FXCollections.observableArrayList(ContactQueries.queryContacts());
-		contactCb.setItems(contacts);*/
+		//Set customers ComboBox
+		ObservableList<Customer> customers = FXCollections.observableArrayList(CustomerQueries.getAllCustomers());
+		customerCb.setItems(customers);
+
 
 	}
 
@@ -428,8 +431,8 @@ public class AddAppointment implements Initializable {
 	public void testFunction() {
 
 		String startHoursStr = String.valueOf(selectStartHoursSpn.getValue());
-		String startMinsStr = String.valueOf(selectStartMinsSpn.getValue());
-		if (!startHoursStr.matches("\\D") || !startMinsStr.matches("\\D")) {
+		String startMinutesStr = String.valueOf(selectStartMinutesSpn.getValue());
+		if (!startHoursStr.matches("\\D") || !startMinutesStr.matches("\\D")) {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setHeaderText("Invalid Format");
 			alert.showAndWait();

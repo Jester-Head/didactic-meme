@@ -5,16 +5,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UpdateCustomer">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/null"
+            fx:controller="controller.UpdateCustomer">
     <bottom>
         <ButtonBar>
             <buttons>
-                <Button fx:id="backBtn" mnemonicParsing="false" onMouseClicked="#onClickGoBack" text="Back" />
-                <Button fx:id="saveBtn" mnemonicParsing="false" onMouseClicked="#onClickSaveCustomer" text="Save" />
-                <Button fx:id="mainMenuBtn" mnemonicParsing="false" onMouseClicked="#onClickGoHome" text="Main Menu" />
+                <Button fx:id="backBtn" mnemonicParsing="false" onMouseClicked="#onClickGoBack" text="Back"/>
+                <Button fx:id="saveBtn" mnemonicParsing="false" onMouseClicked="#onClickSaveCustomer" text="Save"/>
+                <Button fx:id="mainMenuBtn" mnemonicParsing="false" onMouseClicked="#onClickGoHome" text="Main Menu"/>
             </buttons>
             <BorderPane.margin>
-                <Insets bottom="10.0" right="10.0" />
+                <Insets bottom="10.0" right="10.0"/>
             </BorderPane.margin>
         </ButtonBar>
     </bottom>
@@ -23,74 +24,77 @@
             <children>
                 <Label fx:id="customerIdLbl" text="Customer ID:">
                     <font>
-                        <Font name="Century Gothic" size="13.0" />
+                        <Font name="Century Gothic" size="13.0"/>
                     </font>
                 </Label>
                 <Label text="Name:">
                     <font>
-                        <Font name="Century Gothic" size="13.0" />
+                        <Font name="Century Gothic" size="13.0"/>
                     </font>
                 </Label>
-                <TextField fx:id="customerNameTxt" promptText="Name" />
+                <TextField fx:id="customerNameTxt" promptText="Name"/>
                 <Label text="Address:">
                     <font>
-                        <Font name="Century Gothic" size="13.0" />
+                        <Font name="Century Gothic" size="13.0"/>
                     </font>
                 </Label>
-                <TextField fx:id="customerAddressTxt" promptText="Address" />
+                <TextField fx:id="customerAddressTxt" promptText="Address"/>
                 <Label text="Zip Code:">
                     <font>
-                        <Font name="Century Gothic" size="13.0" />
+                        <Font name="Century Gothic" size="13.0"/>
                     </font>
                 </Label>
-                <TextField fx:id="customerZipCodeTxt" promptText="Zip code" />
+                <TextField fx:id="customerZipCodeTxt" promptText="Zip code"/>
                 <Label text="Phone:">
                     <font>
-                        <Font name="Century Gothic" size="13.0" />
+                        <Font name="Century Gothic" size="13.0"/>
                     </font>
                 </Label>
-            <HBox prefHeight="0.0" prefWidth="271.0" spacing="5.0">
-               <children>
-                  <TextField fx:id="phone1txt" prefHeight="23.0" prefWidth="50.0" promptText="123">
-                     <font>
-                        <Font name="Century Gothic" size="12.0" />
-                     </font>
-                  </TextField>
-                  <Label layoutX="96.0" layoutY="10.0" text="-" />
-                  <TextField fx:id="phone2txt" layoutX="10.0" layoutY="10.0" prefHeight="23.0" prefWidth="50.0" promptText="456">
-                     <font>
-                        <Font name="Century Gothic" size="12.0" />
-                     </font>
-                  </TextField>
-                  <Label text="-" />
-                  <TextField fx:id="phone3txt" layoutX="146.0" layoutY="10.0" prefHeight="23.0" prefWidth="50.0" promptText="7890">
-                     <font>
-                        <Font name="Century Gothic" size="12.0" />
-                     </font>
-                  </TextField>
-               </children>
-            </HBox>
+                <HBox prefHeight="0.0" prefWidth="271.0" spacing="5.0">
+                    <children>
+                        <TextField fx:id="phone1txt" prefHeight="23.0" prefWidth="50.0" promptText="123">
+                            <font>
+                                <Font name="Century Gothic" size="12.0"/>
+                            </font>
+                        </TextField>
+                        <Label layoutX="96.0" layoutY="10.0" text="-"/>
+                        <TextField fx:id="phone2txt" layoutX="10.0" layoutY="10.0" prefHeight="23.0" prefWidth="50.0"
+                                   promptText="456">
+                            <font>
+                                <Font name="Century Gothic" size="12.0"/>
+                            </font>
+                        </TextField>
+                        <Label text="-"/>
+                        <TextField fx:id="phone3txt" layoutX="146.0" layoutY="10.0" prefHeight="23.0" prefWidth="50.0"
+                                   promptText="7890">
+                            <font>
+                                <Font name="Century Gothic" size="12.0"/>
+                            </font>
+                        </TextField>
+                    </children>
+                </HBox>
                 <Label text="Location:">
                     <font>
-                        <Font name="Century Gothic" size="13.0" />
+                        <Font name="Century Gothic" size="13.0"/>
                     </font>
                 </Label>
                 <ButtonBar>
                     <buttons>
-                        <ComboBox fx:id="selectCountryCbx" onAction="#onActionSelectCountry" promptText="Select Country" />
-                        <ComboBox fx:id="selectDivisionCbx" />
+                        <ComboBox fx:id="selectCountryCbx" onAction="#onActionSelectCountry"
+                                  promptText="Select Country"/>
+                        <ComboBox fx:id="selectDivisionCbx"/>
                     </buttons>
                 </ButtonBar>
             </children>
             <BorderPane.margin>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
             </BorderPane.margin>
         </VBox>
     </center>
     <top>
         <Label text="Update Customer Information" underline="true" BorderPane.alignment="CENTER">
             <font>
-                <Font name="Century Gothic" size="18.0" />
+                <Font name="Century Gothic" size="18.0"/>
             </font>
         </Label>
     </top>

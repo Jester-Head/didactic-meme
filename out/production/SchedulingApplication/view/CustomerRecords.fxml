@@ -5,74 +5,77 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" fillWidth="false" spacing="15.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerRecords">
-      <children>
-          <Label fx:id="customerRecordsLbl" prefHeight="71.0" prefWidth="214.0" text="Customer Records" underline="true">
-              <font>
-                  <Font name="Century Gothic" size="24.0" />
-              </font>
-              <VBox.margin>
-                  <Insets top="10.0" />
-              </VBox.margin>
-          </Label>
-          <TableView fx:id="customerRecordsTbl" VBox.vgrow="ALWAYS">
-              <columns>
-                  <TableColumn fx:id="customerIdCol" prefWidth="80.79998588562012" text="Customer ID" />
-                  <TableColumn fx:id="customerNameCol" prefWidth="100.00000762939453" text="Name" />
-                  <TableColumn fx:id="customerAddressCol" prefWidth="184.00006103515625" text="Address" />
-                  <TableColumn fx:id="customerPhoneCol" prefWidth="85.60003662109375" text="Phone" />
-                  <TableColumn fx:id="updatedByCol" prefWidth="125.59994506835938" text="Updated By" visible="false" />
-                  <TableColumn fx:id="lastUpdateCol" prefWidth="75.0" text="Last Update" visible="false" />
-                  <TableColumn fx:id="createdByCol" prefWidth="75.0" text="Created By" visible="false" />
-                  <TableColumn fx:id="createDateCol" prefWidth="75.0" text="Create Date" visible="false" />
-              </columns>
-              <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-              </VBox.margin>
-          </TableView>
-          <ButtonBar VBox.vgrow="ALWAYS">
-              <buttons>
-                  <Button fx:id="addCustomerBtn" mnemonicParsing="false" onMouseClicked="#onClickAddCustomer" text="Add">
-                      <font>
-                          <Font name="Century Gothic" size="12.0" />
-                      </font>
-                  </Button>
-                  <Button fx:id="updateCustomerBtn" mnemonicParsing="false" onMouseClicked="#onClickUpdateCustomer" text="Update">
-                      <font>
-                          <Font name="Century Gothic" size="12.0" />
-                      </font>
-                  </Button>
-                  <Button fx:id="deleteCustomerBtn" mnemonicParsing="false" onMouseClicked="#onClickDeleteCustomer" text="Delete">
-                      <font>
-                          <Font name="Century Gothic" size="12.0" />
-                      </font>
-                  </Button>
-              </buttons>
-          </ButtonBar>
-          <ButtonBar VBox.vgrow="ALWAYS">
-              <buttons>
-                  <Button mnemonicParsing="false" text="Set Appointment" wrapText="true">
-                      <font>
-                          <Font name="Century Gothic" size="12.0" />
-                      </font>
-                  </Button>
-              </buttons>
-          </ButtonBar>
-      <HBox alignment="CENTER_RIGHT" fillHeight="false" prefHeight="63.0" prefWidth="492.0">
-         <children>
-                  <ButtonBar buttonOrder="BUTTON_ORDER_WINDOWS">
-                      <buttons>
-                          <Button fx:id="backBtn" mnemonicParsing="false" onMouseClicked="#onClickGoBack" text="Back">
-                              <font>
-                                  <Font name="Century Gothic" size="12.0" />
-                              </font>
-                          </Button>
-                      </buttons>
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-                  </ButtonBar>
-         </children>
-      </HBox>
-      </children>
-  </VBox>
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" fillWidth="false" spacing="15.0"
+      xmlns="http://javafx.com/javafx/null" fx:controller="controller.CustomerRecords">
+    <children>
+        <Label fx:id="customerRecordsLbl" prefHeight="71.0" prefWidth="214.0" text="Customer Records" underline="true">
+            <font>
+                <Font name="Century Gothic" size="24.0"/>
+            </font>
+            <VBox.margin>
+                <Insets top="10.0"/>
+            </VBox.margin>
+        </Label>
+        <TableView fx:id="customerRecordsTbl" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="customerIdCol" prefWidth="80.79998588562012" text="Customer ID"/>
+                <TableColumn fx:id="customerNameCol" prefWidth="100.00000762939453" text="Name"/>
+                <TableColumn fx:id="customerAddressCol" prefWidth="184.00006103515625" text="Address"/>
+                <TableColumn fx:id="customerPhoneCol" prefWidth="85.60003662109375" text="Phone"/>
+                <TableColumn fx:id="updatedByCol" prefWidth="125.59994506835938" text="Updated By" visible="false"/>
+                <TableColumn fx:id="lastUpdateCol" prefWidth="75.0" text="Last Update" visible="false"/>
+                <TableColumn fx:id="createdByCol" prefWidth="75.0" text="Created By" visible="false"/>
+                <TableColumn fx:id="createDateCol" prefWidth="75.0" text="Create Date" visible="false"/>
+            </columns>
+            <VBox.margin>
+                <Insets left="20.0" right="20.0"/>
+            </VBox.margin>
+        </TableView>
+        <ButtonBar VBox.vgrow="ALWAYS">
+            <buttons>
+                <Button fx:id="addCustomerBtn" mnemonicParsing="false" onMouseClicked="#onClickAddCustomer" text="Add">
+                    <font>
+                        <Font name="Century Gothic" size="12.0"/>
+                    </font>
+                </Button>
+                <Button fx:id="updateCustomerBtn" mnemonicParsing="false" onMouseClicked="#onClickUpdateCustomer"
+                        text="Update">
+                    <font>
+                        <Font name="Century Gothic" size="12.0"/>
+                    </font>
+                </Button>
+                <Button fx:id="deleteCustomerBtn" mnemonicParsing="false" onMouseClicked="#onClickDeleteCustomer"
+                        text="Delete">
+                    <font>
+                        <Font name="Century Gothic" size="12.0"/>
+                    </font>
+                </Button>
+            </buttons>
+        </ButtonBar>
+        <ButtonBar VBox.vgrow="ALWAYS">
+            <buttons>
+                <Button mnemonicParsing="false" text="Set Appointment" wrapText="true">
+                    <font>
+                        <Font name="Century Gothic" size="12.0"/>
+                    </font>
+                </Button>
+            </buttons>
+        </ButtonBar>
+        <HBox alignment="CENTER_RIGHT" fillHeight="false" prefHeight="63.0" prefWidth="492.0">
+            <children>
+                <ButtonBar buttonOrder="BUTTON_ORDER_WINDOWS">
+                    <buttons>
+                        <Button fx:id="backBtn" mnemonicParsing="false" onMouseClicked="#onClickGoBack" text="Back">
+                            <font>
+                                <Font name="Century Gothic" size="12.0"/>
+                            </font>
+                        </Button>
+                    </buttons>
+                    <HBox.margin>
+                        <Insets right="10.0"/>
+                    </HBox.margin>
+                </ButtonBar>
+            </children>
+        </HBox>
+    </children>
+</VBox>

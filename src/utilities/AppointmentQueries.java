@@ -105,9 +105,7 @@ public class AppointmentQueries {
 	 */
 	public static ObservableList<Appointment> getAllAppointments() {
 		appointmentObservableList.clear();
-		String findApp = "SELECT * FROM didactic_meme.dbo.appointments a Left Outer JOIN contacts as c ON a" +
-				".Contact_ID" +
-				" = c.Contact_ID";
+		String findApp = "SELECT * FROM didactic_meme.dbo.appointments";
 
 		try {
 			PreparedStatement ps = DataBaseConnection.getConnection().prepareStatement(findApp);
