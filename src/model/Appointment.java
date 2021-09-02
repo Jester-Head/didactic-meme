@@ -42,18 +42,8 @@ public class Appointment {
 	private Timestamp endDateTime;
 	//User_ID INT(10) (FK)
 	private int userId;
-	//Contact_ID INT(10) (FK)
-	private int contactId;
-	// Contact_Name VARCHAR(50)
-	private String contactName;
-	private String contactEmail;
 	private final ObservableList<String> allAppointmentTypes = FXCollections.observableArrayList();
-	private int typeCount;
-	private int appointmentCount;
 
-	public Appointment() {
-
-	}
 
 	//Used for updating customer.
 	public Appointment(int appointmentId, String title, String description, String location, String appointmentType,
@@ -69,57 +59,10 @@ public class Appointment {
 		this.endDateTime = endDateTime;
 		this.lastUpdate = lastUpdate;
 		this.updatedBy = updatedBy;
-		this.contactId = contactId;
+
 		this.customerId = customerId;
 		this.userId = userId;
 
-	}
-
-	public Appointment(int contactId, String contactName, String contactEmail) {
-		this.contactId = contactId;
-		this.contactName = contactName;
-		this.contactEmail = contactEmail;
-	}
-
-	public Appointment(int appointmentId, String title, String description, String location, String type,
-	                   Timestamp start, Timestamp end, Timestamp createDate, String createdBy,
-	                   Timestamp lastUpdate,
-	                   String updatedBy, int contactId, int customerId, int userId) {
-		this.appointmentId = appointmentId;
-		this.title = title;
-		this.description = description;
-		this.location = location;
-		this.appointmentType = type;
-		this.startDateTime = start;
-		this.endDateTime = end;
-		this.createDate = createDate;
-		this.createdBy = createdBy;
-		this.lastUpdate = lastUpdate;
-		this.updatedBy = updatedBy;
-		this.contactId = contactId;
-		this.customerId = customerId;
-		this.userId = userId;
-	}
-
-	public Appointment(int appointmentId, String title, String description, String location, String appointmentType,
-	                   Timestamp startDateTime, Timestamp endDateTime, Timestamp createDate, String createdBy,
-	                   Timestamp lastUpdate,
-	                   String updatedBy, int contactId, String contactName, int customerId, int userId) {
-		this.appointmentId = appointmentId;
-		this.title = title;
-		this.description = description;
-		this.location = location;
-		this.appointmentType = appointmentType;
-		this.startDateTime = startDateTime;
-		this.endDateTime = endDateTime;
-		this.createDate = createDate;
-		this.createdBy = createdBy;
-		this.lastUpdate = lastUpdate;
-		this.updatedBy = updatedBy;
-		this.contactId = contactId;
-		this.contactName = contactName;
-		this.customerId = customerId;
-		this.userId = userId;
 	}
 
 	public Appointment(int appointmentId, String title, String description, String appointmentType,
@@ -134,20 +77,22 @@ public class Appointment {
 
 	}
 
-	public int getTypeCount() {
-		return typeCount;
-	}
-
-	public void setTypeCount(int typeCount) {
-		this.typeCount = typeCount;
-	}
-
-	public int getAppointmentCount() {
-		return appointmentCount;
-	}
-
-	public void setAppointmentCount(int appointmentCount) {
-		this.appointmentCount = appointmentCount;
+	public Appointment(int appointmentId, String title, String description, String location, Timestamp startDateTime,
+	                   Timestamp endDateTime, Timestamp createDate, String createdBy, Timestamp lastUpdate,
+	                   String updatedBy,
+	                   int customerId, int userId) {
+		this.appointmentId = appointmentId;
+		this.title = title;
+		this.description = description;
+		this.location = location;
+		this.startDateTime = startDateTime;
+		this.endDateTime = endDateTime;
+		this.createDate = createDate;
+		this.createdBy = createdBy;
+		this.lastUpdate = lastUpdate;
+		this.updatedBy = updatedBy;
+		this.customerId = customerId;
+		this.userId = userId;
 	}
 
 	public int getCustomerId() {
@@ -186,9 +131,6 @@ public class Appointment {
 		return appointmentType;
 	}
 
-	public void setAppointmentType(String appointmentType) {
-		this.appointmentType = appointmentType;
-	}
 
 	public Timestamp getStartDateTime() {
 
@@ -201,18 +143,9 @@ public class Appointment {
 	}
 
 
-	public int getContactId() {
-		return contactId;
-	}
-
 	public String getCustomerName() {
 		return customerName;
 	}
-
-	public String getContactName() {
-		return contactName;
-	}
-
 
 	public ObservableList<Customer> getCustomerObservableList() {
 		return customerObservableList;
@@ -238,15 +171,6 @@ public class Appointment {
 	public void setAllAppointmentTypes(String type) {
 
 		allAppointmentTypes.add(type);
-	}
-
-	@Override
-	public String toString() {
-		return (contactId + ". " + contactName + ", " + contactEmail);
-	}
-
-	public void setContactEmail(String contactEmail) {
-		this.contactEmail = contactEmail;
 	}
 
 	public String getCreatedBy() {

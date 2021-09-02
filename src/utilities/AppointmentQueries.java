@@ -63,7 +63,8 @@ public class AppointmentQueries {
 				Timestamp.valueOf(String.valueOf(timeConversionUTC(Timestamp.valueOf(LocalDateTime.now().plusMinutes(15)))));
 		Timestamp now = Timestamp.valueOf(String.valueOf(timeConversionUTC(Timestamp.valueOf(LocalDateTime.now()))));
 
-		PreparedStatement ps = DataBaseConnection.getConnection().prepareStatement("Select * From  didactic_meme.dbo.appointments Where" +
+		PreparedStatement ps = DataBaseConnection.getConnection().prepareStatement("Select * From  didactic_meme.dbo" +
+				".appointments Where" +
 				" " +
 				"Start Between ? And ? And User_ID = ? ");
 
@@ -116,7 +117,6 @@ public class AppointmentQueries {
 				String title = rs.getString("Title");
 				String description = rs.getString("Description");
 				String location = rs.getString("Location");
-				String appointmentType = rs.getString("Type");
 				int customerId = rs.getInt("Customer_ID");
 
 				Timestamp startDateTime = rs.getTimestamp("Start");
@@ -134,16 +134,13 @@ public class AppointmentQueries {
 				String updatedBy = rs.getString("Last_Updated_By");
 
 
-				int contactId = rs.getInt("Contact_ID");
 				int userId = rs.getInt("User_ID");
-				String contactName = rs.getString("Contact_Name");
-				String contactEmail = rs.getString("Email");
 
 
-				Appointment appointment = new Appointment(appointmentId, title, description, location, appointmentType
-						, startTS, endTS, createDate, createdBy, lastUpdate, updatedBy, contactId, contactName,
+				Appointment appointment = new Appointment(appointmentId, title, description, location
+						, startTS, endTS, createDate, createdBy, lastUpdate, updatedBy,
 						customerId, userId);
-				appointment.setContactEmail(contactEmail);
+
 				addAppointment(appointment);
 
 
@@ -175,7 +172,7 @@ public class AppointmentQueries {
 
 		String updateAppointment = "Update didactic_meme.dbo.appointments Set Title=?,Description=?,Location=?," +
 				"Type=?,Start=?,End=?,Last_Update=?,Last_Updated_By=?,Customer_ID=?," +
-				"User_ID=?,Contact_ID=? Where Appointment_ID = ?";
+				"User_ID=? Where Appointment_ID = ?";
 
 		try {
 			PreparedStatement ps = DataBaseConnection.getConnection().prepareStatement(updateAppointment);
@@ -192,7 +189,6 @@ public class AppointmentQueries {
 			Timestamp lastUpDate = timeConversionUTC(appointment.getLastUpdate());
 			int userId = appointment.getUserId();
 			int customerId = appointment.getCustomerId();
-			int contactId = appointment.getContactId();
 			String updatedBy = appointment.getUpdatedBy();
 
 
@@ -206,8 +202,7 @@ public class AppointmentQueries {
 			ps.setString(8, updatedBy);
 			ps.setInt(9, customerId);
 			ps.setInt(10, userId);
-			ps.setInt(11, contactId);
-			ps.setInt(12, appointmentID);
+			ps.setInt(11, appointmentID);
 
 			ps.execute();
 			return true;
@@ -226,7 +221,7 @@ public class AppointmentQueries {
 	 */
 	public static void insertAppointment(Appointment appointment) {
 		appointmentObservableList.clear();
-		String addAppointment = "Insert Into didactic_meme.dbo.appointments VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String addAppointment = "Insert Into didactic_meme.dbo.appointments VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 		try {
@@ -245,7 +240,7 @@ public class AppointmentQueries {
 
 			int userId = appointment.getUserId();
 			int customerId = appointment.getCustomerId();
-			int contactId = appointment.getContactId();
+
 
 			String createdBy = appointment.getCreatedBy();
 			String updatedBy = appointment.getUpdatedBy();
@@ -253,16 +248,15 @@ public class AppointmentQueries {
 			ps.setString(1, appointmentTitle);
 			ps.setString(2, description);
 			ps.setString(3, location);
-			ps.setString(4, appointmentType);
-			ps.setTimestamp(5, startTime);
-			ps.setTimestamp(6, endTime);
-			ps.setTimestamp(7, createDate);
-			ps.setString(8, createdBy);
-			ps.setTimestamp(9, lastUpDate);
-			ps.setString(10, updatedBy);
-			ps.setInt(11, customerId);
-			ps.setInt(12, userId);
-			ps.setInt(13, contactId);
+			ps.setTimestamp(4, startTime);
+			ps.setTimestamp(5, endTime);
+			ps.setTimestamp(6, createDate);
+			ps.setString(7, createdBy);
+			ps.setTimestamp(8, lastUpDate);
+			ps.setString(9, updatedBy);
+			ps.setInt(10, customerId);
+			ps.setInt(11, userId);
+
 
 			ps.execute();
 
@@ -304,11 +298,7 @@ public class AppointmentQueries {
 	 */
 	public static ObservableList<Appointment> getMonthlyAppointments() {
 		appointmentObservableList.clear();
-		String monthly = "Select * From didactic_meme.dbo.appointments a Left Outer JOIN contacts c ON a.Contact_ID " +
-				"=" +
-				" " +
-				"c.Contact_ID " +
-				"WHERE" +
+		String monthly = "SELECT * FROM didactic_meme.dbo.appointments WHERE" +
 				" (MONTH(Start)=MONTH(now()) and YEAR(Start)=YEAR(now()))";
 		try {
 			PreparedStatement ps = DataBaseConnection.getConnection().prepareStatement(monthly);
@@ -318,7 +308,6 @@ public class AppointmentQueries {
 				String title = rs.getString("Title");
 				String description = rs.getString("Description");
 				String location = rs.getString("Location");
-				String appointmentType = rs.getString("Type");
 				int customerId = rs.getInt("Customer_ID");
 
 
@@ -341,15 +330,12 @@ public class AppointmentQueries {
 				String updatedBy = rs.getString("Last_Updated_By");
 
 
-				int contactId = rs.getInt("Contact_ID");
 				int userId = rs.getInt("User_ID");
-				String contactName = rs.getString("Contact_Name");
-				String contactEmail = rs.getString("Email");
 
-				Appointment appointment = new Appointment(appointmentId, title, description, location, appointmentType
-						, startTS, endTS, createDate, createdBy, lastUpdate, updatedBy, contactId, contactName,
-						customerId, userId);
-				appointment.setContactEmail(contactEmail);
+
+				Appointment appointment = new Appointment(appointmentId, title, description, location, startTS, endTS,
+						createDate, createdBy, lastUpdate, updatedBy, customerId, userId);
+
 				addAppointment(appointment);
 
 			}
@@ -367,9 +353,7 @@ public class AppointmentQueries {
 	 */
 	public static ObservableList<Appointment> getWeeklyAppointments() {
 		appointmentObservableList.clear();
-		String monthly = "SELECT * FROM didactic_meme.dbo.appointments a LEFT OUTER JOIN dbo.contacts c ON a" +
-				".Contact_ID = c.Contact_ID " +
-				"WHERE" +
+		String monthly = "SELECT * FROM didactic_meme.dbo.appointments WHERE" +
 				" (Week(Start)=Week(now()) and YEAR(Start)=YEAR(now()))";
 		try {
 			PreparedStatement ps = DataBaseConnection.getConnection().prepareStatement(monthly);
@@ -400,17 +384,12 @@ public class AppointmentQueries {
 				String createdBy = rs.getString("Created_By");
 				Timestamp lastUpdate = rs.getTimestamp("Last_Update");
 				String updatedBy = rs.getString("Last_Updated_By");
-
-
-				int contactId = rs.getInt("Contact_ID");
 				int userId = rs.getInt("User_ID");
-				String contactName = rs.getString("Contact_Name");
-				String contactEmail = rs.getString("Email");
 
-				Appointment appointment = new Appointment(appointmentId, title, description, location, appointmentType
-						, startTS, endTS, createDate, createdBy, lastUpdate, updatedBy, contactId, contactName,
-						customerId, userId);
-				appointment.setContactEmail(contactEmail);
+
+				Appointment appointment = new Appointment(appointmentId, title, description, location, startTS, endTS,
+						createDate, createdBy, lastUpdate, updatedBy, customerId, userId);
+
 				addAppointment(appointment);
 
 			}

@@ -16,8 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Appointment;
-import utilities.AppointmentQueries;
-import utilities.ReportQueries;
+
 
 
 import java.io.IOException;
@@ -28,6 +27,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ResourceBundle;
 
+//TODO Find different things to report.
 /**
  * Reports the total number of customer appointments by type and month.
  * Displays a schedule for each contact in the organization.
@@ -112,7 +112,7 @@ public class Reports implements Initializable {
 	 * @throws SQLException
 	 */
 	public void onActionSelectContact(ActionEvent event) throws SQLException {
-		int contactId = contactCB.getSelectionModel().getSelectedItem().getContactId();
+
 //		ObservableList schedule = ContactQueries.getContactAppointments(contactId);
 
 
@@ -166,10 +166,10 @@ public class Reports implements Initializable {
 		Month month = Month.valueOf(monthStr);
 		int monthInt = month.getValue();
 
-		ObservableList<Appointment> typesCount = ReportQueries.getAppointmentTypeCount(year, monthInt);
+
 		typesCol.setCellValueFactory(new PropertyValueFactory<>("AppointmentType"));
 		countCol.setCellValueFactory(new PropertyValueFactory<>("TypeCount"));
-		meetingTypesTbl.setItems(typesCount);
+
 	}
 
 	public void onActionSelectContactYear(ActionEvent event) {

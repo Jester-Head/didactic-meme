@@ -25,6 +25,7 @@ import java.io.*;
 import java.net.URL;
 import java.sql.*;
 import java.time.*;
+import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
@@ -51,9 +52,9 @@ public class AddAppointment implements Initializable {
 	@FXML
 	public Label appointmentIdLbl;
 	@FXML
-	public ComboBox userCb;
+	private ComboBox<User> userCb;
 	@FXML
-	public ComboBox customerCb;
+	private ComboBox<Customer> customerCb;
 	@FXML
 	private Spinner<Integer> selectEndMinutesSpn;
 
@@ -95,10 +96,8 @@ public class AddAppointment implements Initializable {
 	private String title;
 	private String description;
 	private String location;
-	private String appointmentType;
 	private Timestamp startDateTime;
 	private Timestamp endDateTime;
-	private int contactId;
 	private int customerIdInt;
 	private int userIdInt;
 	private StringConverter<String> stringConverter;
@@ -149,8 +148,8 @@ public class AddAppointment implements Initializable {
 			String createdBy = SignInScreen.getActiveUser().getUserName();
 
 
-			Appointment appointment = new Appointment(appointmentId, title, description, location, appointmentType
-					, startDateTime, endDateTime, createDate, createdBy, lastUpdate, updatedBy, contactId,
+			Appointment appointment = new Appointment(appointmentId, title, description, location
+					, startDateTime, endDateTime, createDate, createdBy, lastUpdate, updatedBy,
 					customerIdInt, userIdInt);
 			//Inserts appointment if date selection is valid and appointment doesn't overlap with an existing one.
 			if (valiDate(appointment) && checkOverlaps(appointment)) {
@@ -182,6 +181,8 @@ public class AddAppointment implements Initializable {
 	 */
 	public boolean valiDate(Appointment appointment) {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.setHeaderText("Invalid Date/Time Selection");
+		alert.setContentText("Appointment must be scheduled after " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a")));
 		//Converts appointment times from Timestamp to LocalDateTime
 		LocalDateTime startDT = startDateTime.toLocalDateTime();
 		LocalDateTime endDT = endDateTime.toLocalDateTime();
@@ -203,17 +204,21 @@ public class AddAppointment implements Initializable {
 		ZonedDateTime estEndDateTime = ZonedDateTime.of(endDate, LocalTime.of(22, 0),
 				ZoneId.of("America/New_York"));
 
-		//Checks if the appointment is scheduled before the current time
-		if (startDate.isEqual(ZonedDateTime.now().toLocalDate()) || endDate.isEqual(ZonedDateTime.now().toLocalDate())) {
-			if (startDT.isBefore(ZonedDateTime.now().toLocalDateTime()) || endDT.isBefore(ZonedDateTime.now()
-					.toLocalDateTime()) | endDT.isBefore(startDT)) {
-				alert.setHeaderText("Invalid Date/Time Selection");
-				alert.setContentText("Appointment must be scheduled after " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM-dd hh:mm")));
-				alert.showAndWait();
-				return false;
-			}
-		}
 
+		//Checks if the appointment is scheduled before the current time
+		LocalDateTime currentTime = LocalDateTime.now();
+		if (startDT.isEqual(currentTime) || endDT.isEqual(currentTime)) {
+			alert.showAndWait();
+			return false;
+		}
+		if (startDT.isBefore(currentTime) || (endDT.isBefore(currentTime))) {
+			alert.showAndWait();
+			return false;
+		}
+		if (endDT.isBefore(startDT) || endDT.isEqual(startDT)) {
+			alert.showAndWait();
+			return false;
+		}
 
 		//Prevents scheduling appointments before 8am EST
 		if (localToEstStart.isBefore(estStartDateTime) | localToEstEnd.isBefore(estStartDateTime)) {
@@ -241,10 +246,8 @@ public class AddAppointment implements Initializable {
 	public boolean validateFields() {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 
-		//String contactIdStr = String.valueOf(contactCb.getValue());
-		//String userIdStr = userIdTxt.getText();
-		String type = String.valueOf(appointmentTypeCb.getValue());
-		//String customerIdStr = customerIdTxt.getText();
+		String userIdStr = String.valueOf(userCb.getValue());
+		String customerIdStr = String.valueOf(customerCb.getValue());
 		String name = appointmentNameTxt.getText();
 		String desc = descriptionTxt.getText();
 		String loc = locationTxt.getText();
@@ -252,8 +255,7 @@ public class AddAppointment implements Initializable {
 		//Assign values as strings to avoid multiple try/catch blocks
 		String startDateStr = String.valueOf(startDateDp.getValue());
 
-		String startHoursStr = stringConverter.fromString(String.valueOf(selectStartHoursSpn));
-
+		String startHoursStr = String.valueOf(selectStartHoursSpn.getValue());
 		String startMinutesStr = String.valueOf(selectStartMinutesSpn.getValue());
 
 
@@ -276,45 +278,21 @@ public class AddAppointment implements Initializable {
 		}
 
 		//Checking for blank fields
-/*		if (name.isBlank() | desc.isBlank() | loc.isBlank() | type.isBlank() | customerIdStr.isBlank() | userIdStr
-.isBlank() | contactIdStr.isBlank()) {
+		if (name.isBlank() | desc.isBlank() | loc.isBlank() | customerIdStr.isBlank() | userIdStr.isBlank()) {
 			alert.setContentText("Please fill out all text fields.");
 			alert.showAndWait();
 			return false;
-		}*/
-
-		//User ID must only contain integers
-//		if (userIdStr.matches("\\D")) {
-//			alert.setHeaderText("Invalid User ID");
-//			alert.setContentText("User ID must only contain numerical values.");
-//			alert.showAndWait();
-//			return false;
-//		}
-		//Customer ID must only contain integers
-/*
-		if (customerIdStr.matches("\\D")) {
-			alert.setHeaderText("Invalid Customer ID");
-			alert.setContentText("Customer ID must only contain numerical values.");
-			alert.showAndWait();
-			return false;
 		}
-*/
 
 		//Stores data as the appropriate type
 		LocalDate startDate = startDateDp.getValue();
 		LocalDate endDate = endDateDp.getValue();
-		Integer startHours = selectStartHoursSpn.getValue();
-		Integer startMinutes = selectStartMinutesSpn.getValue();
-		//LocalTime startTime = LocalTime.of(startHours, startMinutes);
-		//this.startDateTime = Timestamp.valueOf(LocalDateTime.of(startDate, startTime));
-		Integer endHours = selectEndHoursSpn.getValue();
-		Integer endMinutes = selectEndHoursSpn.getValue();
-		//LocalTime endTime = LocalTime.of(endHours, endMinutes);
-		//this.endDateTime = Timestamp.valueOf(LocalDateTime.of(endDate, endTime));
-		//this.customerIdInt = Integer.parseInt(customerIdTxt.getText());
-		//this.userIdInt = Integer.parseInt(userIdTxt.getText());
-		//this.contactId = contactCb.getSelectionModel().getSelectedItem().getContactId();
-		this.appointmentType = type;
+		LocalTime startTime = getTwelveHourTimes(selectStartHoursSpn, selectStartMinutesSpn, startAmPmTg);
+		this.startDateTime = Timestamp.valueOf(LocalDateTime.of(startDate, startTime));
+		LocalTime endTime = getTwelveHourTimes(selectEndHoursSpn, selectEndMinutesSpn, endAmPmTg);
+		this.endDateTime = Timestamp.valueOf(LocalDateTime.of(endDate, endTime));
+		this.userIdInt = userCb.getSelectionModel().getSelectedItem().getUserID();
+		this.customerIdInt = customerCb.getSelectionModel().getSelectedItem().getCustomerId();
 		this.title = name;
 		this.description = desc;
 		this.location = loc;

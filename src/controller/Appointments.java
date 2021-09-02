@@ -208,13 +208,11 @@ public class Appointments implements Initializable {
 	public void displayAppointments() {
 		appointments.setAll(AppointmentQueries.getAllAppointments());
 		appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
-		appointmentTypeCol.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
 		titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
 		locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
 		descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
 		startDateCol.setCellValueFactory(new PropertyValueFactory<>("startDateTime"));
 		endDateCol.setCellValueFactory(new PropertyValueFactory<>("endDateTime"));
-		contactCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
 		customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
 		appointmentsTbl.setItems(appointments);
 
