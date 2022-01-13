@@ -1,6 +1,6 @@
-### Scheduling Application
+# Scheduling Application
 
-# Project Overview
+## Project Overview
 
 ### COMPETENCIES
 ---
