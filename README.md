@@ -4,19 +4,19 @@
 
 ### COMPETENCIES
 ---
-**4025.1.5: Database and File Server Applications**<br/>
+**Database and File Server Applications:**<br/>
 The graduate produces database and file server applications using advanced Java programming language constructs to meet business requirements.
 
-**4025.1.6:  Lambda**<br/>
+**Lambda:**<br/>
 The graduate incorporates lambda expressions in application development to meet business requirements more efficiently.
 
-**4025.1.7  :  Collections**<br/>
+**Collections:**<br/>
 The graduate incorporates streams and filters in application development to manipulate data more efficiently.
 
-**4025.1.8:  Localization API and Date/Time API**<br/>
+**Localization API and Date/Time API:**<br/>
 The graduate applies the localization API and date/time API in application development to support end-users in various geographical regions.
 
-**4025.1.9:  Advanced Exception Control**<br/>
+**Advanced Exception Control:**<br/>
 The graduate incorporates advanced exception control mechanisms in application development for improving user experience and application stability.
 
 ### INTRODUCTION
