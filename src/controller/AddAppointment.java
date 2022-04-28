@@ -25,7 +25,6 @@ import java.io.*;
 import java.net.URL;
 import java.sql.*;
 import java.time.*;
-import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
@@ -152,7 +151,7 @@ public class AddAppointment implements Initializable {
 					, startDateTime, endDateTime, createDate, createdBy, lastUpdate, updatedBy,
 					customerIdInt, userIdInt);
 			//Inserts appointment if date selection is valid and appointment doesn't overlap with an existing one.
-			if (valiDate(appointment) && checkOverlaps(appointment)) {
+			if (valiDate() && checkOverlaps(appointment)) {
 
 				AppointmentQueries.insertAppointment(appointment);
 				onClickGoBack(event);
@@ -176,10 +175,9 @@ public class AddAppointment implements Initializable {
 	 * Checks for logical errors to prevent scheduling an appointment outside business hours (8:00 a.m.
 	 * to 10:00 p.m. EST, including weekends).
 	 *
-	 * @param appointment model of an appointment
 	 * @return true if appointment passes all logical checks. Otherwise, returns false.
 	 */
-	public boolean valiDate(Appointment appointment) {
+	public boolean valiDate() {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 		alert.setHeaderText("Invalid Date/Time Selection");
 		alert.setContentText("Appointment must be scheduled after " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a")));
@@ -245,60 +243,51 @@ public class AddAppointment implements Initializable {
 
 	public boolean validateFields() {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
+		try {
+			String userIdStr = String.valueOf(userCb.getValue());
+			String customerIdStr = String.valueOf(customerCb.getValue());
+			String name = appointmentNameTxt.getText();
+			String desc = descriptionTxt.getText();
+			String loc = locationTxt.getText();
 
-		String userIdStr = String.valueOf(userCb.getValue());
-		String customerIdStr = String.valueOf(customerCb.getValue());
-		String name = appointmentNameTxt.getText();
-		String desc = descriptionTxt.getText();
-		String loc = locationTxt.getText();
+			String startDateStr = String.valueOf(startDateDp.getValue());
 
-		//Assign values as strings to avoid multiple try/catch blocks
-		String startDateStr = String.valueOf(startDateDp.getValue());
-
-		String startHoursStr = String.valueOf(selectStartHoursSpn.getValue());
-		String startMinutesStr = String.valueOf(selectStartMinutesSpn.getValue());
+			String startHoursStr = String.valueOf(selectStartHoursSpn.getValue());
+			String startMinutesStr = String.valueOf(selectStartMinutesSpn.getValue());
 
 
-		//Checks for missing start times
-		if (startDateStr.isBlank() | startHoursStr.isBlank() | startMinutesStr.isBlank()) {
-			alert.setHeaderText("Missing Times");
-			alert.setContentText("Please select a start date and time.");
-			alert.showAndWait();
-			return false;
+			//Checks for missing start times
+			if (startDateStr.isBlank() | startHoursStr.isBlank() | startMinutesStr.isBlank()) {
+				alert.setHeaderText("Missing Times");
+				alert.setContentText("Please select a start date and time.");
+				alert.showAndWait();
+				return false;
+			}
+			String endDateStr = String.valueOf(endDateDp.getValue());
+			String endHoursStr = String.valueOf(selectEndHoursSpn.getValue());
+			String endMinutesStr = String.valueOf(selectEndMinutesSpn.getValue());
+
+			if (endDateStr.isBlank() | endHoursStr.isBlank() | endMinutesStr.isBlank()) {
+				alert.setHeaderText("Missing Times");
+				alert.setContentText("Please select a end date and time.");
+				alert.showAndWait();
+				return false;
+			}
+
+			//Checking for blank fields
+			if (name.isBlank() | desc.isBlank() | loc.isBlank() | customerIdStr.isBlank() | userIdStr.isBlank()) {
+				alert.setContentText("Please fill out all text fields.");
+				alert.showAndWait();
+			}
+				return false;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		String endDateStr = String.valueOf(endDateDp.getValue());
-		String endHoursStr = String.valueOf(selectEndHoursSpn.getValue());
-		String endMinutesStr = String.valueOf(selectEndMinutesSpn.getValue());
-		//Checks for missing end times
-		if (endDateStr.isBlank() | endHoursStr.isBlank() | endMinutesStr.isBlank()) {
-			alert.setHeaderText("Missing Times");
-			alert.setContentText("Please select an end date and time.");
-			alert.showAndWait();
-			return false;
-		}
-
-		//Checking for blank fields
-		if (name.isBlank() | desc.isBlank() | loc.isBlank() | customerIdStr.isBlank() | userIdStr.isBlank()) {
-			alert.setContentText("Please fill out all text fields.");
-			alert.showAndWait();
-			return false;
-		}
-
-		//Stores data as the appropriate type
-		LocalDate startDate = startDateDp.getValue();
-		LocalDate endDate = endDateDp.getValue();
-		LocalTime startTime = getTwelveHourTimes(selectStartHoursSpn, selectStartMinutesSpn, startAmPmTg);
-		this.startDateTime = Timestamp.valueOf(LocalDateTime.of(startDate, startTime));
-		LocalTime endTime = getTwelveHourTimes(selectEndHoursSpn, selectEndMinutesSpn, endAmPmTg);
-		this.endDateTime = Timestamp.valueOf(LocalDateTime.of(endDate, endTime));
-		this.userIdInt = userCb.getSelectionModel().getSelectedItem().getUserID();
-		this.customerIdInt = customerCb.getSelectionModel().getSelectedItem().getCustomerId();
-		this.title = name;
-		this.description = desc;
-		this.location = loc;
-
 		return true;
 	}
+
+
+
 
 	public LocalTime getTwelveHourTimes(Spinner<Integer> hoursSpin,Spinner<Integer> minutesSpin, ToggleGroup toggleGroup) {
 		int value = hoursSpin.getValue();
